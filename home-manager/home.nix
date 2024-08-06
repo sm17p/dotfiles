@@ -45,7 +45,6 @@
     };
   };
 
-  # TODO: Set your username
   home = {
     username = "yoda";
     homeDirectory = "/Users/yoda";
@@ -53,7 +52,6 @@
 
   # Enable home-manager and git
   programs = {
-    
     fish = {
       enable = true;
     };
@@ -66,6 +64,9 @@
       enable = true;
     };
 
+    starship = {
+      enable = true;
+    };
   };
 
   # Nicely reload system units when changing configs
@@ -73,4 +74,8 @@
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   home.stateVersion = "24.05";
+
+  home.shellAliases = {
+    "nix-rebuild" = "darwin-rebuild switch --flake ~/dotfiles";
+  };
 }
