@@ -18,6 +18,8 @@ with lib; {
   #     set fish_trace 2
   # '';
 
+  fonts.packages = [(pkgs.nerdfonts.override {fonts = ["FiraCode"];})];
+
   environment.shells = [
     pkgs.zsh
     pkgs.fish
@@ -26,6 +28,7 @@ with lib; {
   environment.systemPackages = [
     pkgs.vim
     pkgs.curl
+    pkgs.moon
     # pkgs.direnv
     # pkgs.age
     # pkgs.glow
@@ -34,14 +37,37 @@ with lib; {
   ];
 
   # Homebrew needs to be installed on its own!
-  homebrew.enable = true;
-  homebrew.casks = [
-    # "wireshark"
-    # "google-chrome"
-  ];
-  homebrew.brews = [
-    # "imagemagick"
-  ];
+  homebrew = {
+    brews = [
+      "trash" # Delete files and folders to trash instead of rm
+    ];
+    casks = [
+      "iterm2"
+      # "nushell"
+      "logitech-g-hub"
+      "amethyst"
+      "ferdium"
+      "firefox"
+      "marta"
+      "signal"
+      "brave-browser"
+      "microsoft-edge"
+      "discord"
+      "visual-studio-code"
+      "wave"
+
+      "gitify" # Git notifications in menu bar
+      "meetingbar" # Show meetings in menu bar
+      "obsidian" # Obsidian packaging on Nix is not available for macOS
+      "spotify"
+    ];
+    enable = true;
+    onActivation = {
+      autoUpdate = false; # Don't update during rebuild
+      # cleanup = "zap"; # Uninstall all programs not declared
+      upgrade = true;
+    };
+  };
 
   home-manager.backupFileExtension = "backup";
 
