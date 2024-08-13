@@ -64,12 +64,25 @@ with lib; {
       "meetingbar" # Show meetings in menu bar
       "obsidian" # Obsidian packaging on Nix is not available for macOS
       "spotify"
+      "tailscale"
     ];
     enable = true;
     onActivation = {
       autoUpdate = false; # Don't update during rebuild
       cleanup = "uninstall"; # Uninstall all programs not declared
       upgrade = true;
+    };
+
+    # These app IDs are from using the mas CLI app
+    # mas = mac app store
+    # https://github.com/mas-cli/mas
+    #
+    # $ nix shell nixpkgs#mas
+    # $ mas search <app name>
+    #
+    masApps = {
+      "slack" = 803453959;
+      "telegram" = 747648890;
     };
 
     taps = builtins.attrNames config.nix-homebrew.taps;
