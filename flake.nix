@@ -34,6 +34,10 @@
       url = "github:homebrew/homebrew-cask";
       flake = false;
     };
+
+    catppuccin = {
+      url = "github:catppuccin/nix";
+    };
   };
 
   outputs = {
@@ -80,9 +84,9 @@
         {
           home-manager.useGlobalPkgs = true;
           # home-manager.useUserPackages = true;
-          home-manager.users.yoda.imports = [./home-manager/home.nix];
+          home-manager.users.yoda.imports = [./home-manager];
           # networking.hostName = hostName;
-          # home-manager.extraSpecialArgs = { inherit inputs ; };
+          home-manager.extraSpecialArgs = {inherit inputs;};
         }
         nix-homebrew.darwinModules.nix-homebrew
         {
@@ -110,7 +114,9 @@
           };
         }
       ];
-      specialArgs = {inherit self;};
+      specialArgs = {
+        inherit self inputs;
+      };
     };
 
     # Expose the package set, including overlays, for convenience.

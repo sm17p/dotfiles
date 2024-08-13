@@ -2,6 +2,7 @@
   pkgs,
   self,
   lib,
+  inputs,
   ...
 }:
 with lib; {
@@ -12,11 +13,14 @@ with lib; {
   #     set -x
   # '';
 
-  # imports = [ <home-manager/nix-darwin> ];
+  imports = [
+    ../packages.nix
+  ];
 
-  # environment.etc."fish/config.fish".text = mkBefore ''
-  #     set fish_trace 2
-  # '';
+  environment.etc."fish/config.fish".text = mkBefore ''
+    # set -gx PNPM_HOME "/Users/yoda/.local/share/pnpm"
+    # set -gx PATH "$PNPM_HOME" $PATH
+  '';
 
   fonts.packages = [(pkgs.nerdfonts.override {fonts = ["FiraCode"];})];
 
@@ -25,16 +29,14 @@ with lib; {
     pkgs.fish
   ];
 
-  environment.systemPackages = [
-    pkgs.vim
-    pkgs.curl
-    pkgs.moon
-    # pkgs.direnv
-    # pkgs.age
-    # pkgs.glow
-    pkgs.eza
-    pkgs.fish
-  ];
+  environment.variables = {
+    ASTRO_TELEMETRY_DISABLED = "1";
+    FNM_COREPACK_ENABLED = "true";
+    FNM_RESOLVE_ENGINES = "true";
+    HOMEBREW_NO_ANALYTICS = "1";
+    HOMEBREW_NO_INSECURE_REDIRECT = "1";
+    HOMEBREW_NO_EMOJI = "1";
+  };
 
   # Homebrew needs to be installed on its own!
   homebrew = {
@@ -55,6 +57,7 @@ with lib; {
       "discord"
       "visual-studio-code"
       "wave"
+      "google-chrome"
 
       "gitify" # Git notifications in menu bar
       "meetingbar" # Show meetings in menu bar
@@ -64,7 +67,7 @@ with lib; {
     enable = true;
     onActivation = {
       autoUpdate = false; # Don't update during rebuild
-      # cleanup = "zap"; # Uninstall all programs not declared
+      cleanup = "uninstall"; # Uninstall all programs not declared
       upgrade = true;
     };
   };

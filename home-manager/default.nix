@@ -18,6 +18,11 @@
 
     # You can also split up your configuration and import pieces of it here:
     # ./nvim.nix
+    inputs.catppuccin.homeManagerModules.catppuccin
+    ./programs/aliases.nix
+    ./programs/fish.nix
+    ./programs/git.nix
+    ./programs/tealdeer.nix
   ];
 
   nixpkgs = {
@@ -60,14 +65,9 @@
       enable = true;
     };
 
-    fish = {
+    fzf = {
       enable = true;
-    };
-
-    git = {
-      enable = true;
-      userEmail = "smitp.contact@gmail.com";
-      userName = "Smit";
+      catppuccin.enable = true;
     };
 
     home-manager = {
@@ -121,8 +121,8 @@
   home.stateVersion = "24.05";
 
   home.shellAliases = {
-    "l" = "eza -l --icons --git -a";
-    "lt" = "eza --tree --level=2 --long --icons --git";
+    "l" = "eza -l -g --icons --git -a";
+    "lt" = "eza --tree -g --level=2 --long --icons --git";
     "nix-rebuild" = "darwin-rebuild switch --flake ~/dotfiles";
   };
 }
