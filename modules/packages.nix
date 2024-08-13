@@ -7,14 +7,16 @@
     inputs.home-manager.packages.${pkgs.system}.home-manager
     vim
     curl
-    moon
     # pkgs.direnv
     # pkgs.age
     # pkgs.glow
     eza
     fish
 
+    nodePackages.typescript-language-server
+
     fnm
+    moon
 
     dust
     fd

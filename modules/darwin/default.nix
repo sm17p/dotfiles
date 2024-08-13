@@ -3,6 +3,7 @@
   self,
   lib,
   inputs,
+  config,
   ...
 }:
 with lib; {
@@ -70,6 +71,8 @@ with lib; {
       cleanup = "uninstall"; # Uninstall all programs not declared
       upgrade = true;
     };
+
+    taps = builtins.attrNames config.nix-homebrew.taps;
   };
 
   home-manager.backupFileExtension = "backup";
