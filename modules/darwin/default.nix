@@ -135,7 +135,12 @@ with lib; {
     yoda = {
       home = "/Users/yoda";
       shell = pkgs.fish;
-      uid = 502;
+      # dscl . list /groups
+      # dscl . list /users
+      # dscl
+      # dscl . -read /Users/yoda UserShell
+      # dscl . -read /Users/yoda UniqueID
+      uid = 501; # 502 if secondary account on OS, 503 for tertiary and so forth... Mostly it's going to be 501 for a new device
     };
   };
 }
