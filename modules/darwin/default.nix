@@ -58,7 +58,7 @@ with lib; {
       "discord"
       "visual-studio-code"
       "wave"
-      "google-chrome"
+      # "google-chrome"
 
       "gitify" # Git notifications in menu bar
       "meetingbar" # Show meetings in menu bar
