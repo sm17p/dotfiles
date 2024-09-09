@@ -43,6 +43,7 @@ with lib; {
   homebrew = {
     brews = [
       "trash" # Delete files and folders to trash instead of rm
+      "git-lfs" # Git LFS for large files
     ];
     casks = [
       "iterm2"
