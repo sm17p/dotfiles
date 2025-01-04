@@ -76,7 +76,7 @@
 
     defaultPackage.aarch64-darwin = home-manager.defaultPackage.aarch64-darwin;
 
-    darwinConfigurations."MacBook-Pro" = nix-darwin.lib.darwinSystem {
+    darwinConfigurations."sakatagintoki" = nix-darwin.lib.darwinSystem {
       system = "aarch64-darwin";
       modules = [
         ./modules/darwin
@@ -89,32 +89,6 @@
           home-manager.extraSpecialArgs = {inherit inputs;};
         }
         nix-homebrew.darwinModules.nix-homebrew
-        # First time install
-        # {
-        #   nix-homebrew = {
-        #     # Install Homebrew under the default prefix
-        #     enable = true;
-
-        #     # Apple Silicon Only: Also install Homebrew under the default Intel prefix for Rosetta 2
-        #     enableRosetta = true;
-
-        #     # User owning the Homebrew prefix
-        #     user = "yoda";
-
-        #     # Optional: Declarative tap management
-        #     taps = {
-        #       "homebrew/homebrew-bundle" = homebrew-bundle;
-        #       "homebrew/homebrew-core" = homebrew-core;
-        #       "homebrew/homebrew-cask" = homebrew-cask;
-        #     };
-
-        #     # Optional: Enable fully-declarative tap management
-        #     #
-        #     # With mutableTaps disabled, taps can no longer be added imperatively with `brew tap`.
-        #     mutableTaps = false;
-        #   };
-        # }
-        # Existing installation
         {
           nix-homebrew = {
             # Install Homebrew under the default prefix
@@ -126,8 +100,15 @@
             # User owning the Homebrew prefix
             user = "yoda";
 
-            # Automatically migrate existing Homebrew installations
-            autoMigrate = true;
+	          # Optional: Declarative tap management
+            taps = {
+              "homebrew/homebrew-bundle" = homebrew-bundle;
+              "homebrew/homebrew-core" = homebrew-core;
+              "homebrew/homebrew-cask" = homebrew-cask;
+            };
+
+            mutableTaps = false;
+           
           };
         }
       ];
@@ -137,6 +118,6 @@
     };
 
     # Expose the package set, including overlays, for convenience.
-    darwinPackages = self.darwinConfigurations."MacBook-Pro".pkgs;
+    darwinPackages = self.darwinConfigurations."sakatagintoki".pkgs;
   };
 }

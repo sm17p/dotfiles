@@ -4,24 +4,25 @@
   ...
 }: {
   environment.systemPackages = with pkgs; [
-    inputs.home-manager.packages.${pkgs.system}.home-manager
-    vim
-    curl
-    # pkgs.direnv
     # pkgs.age
+    # pkgs.direnv
     # pkgs.glow
-    eza
-    fish
-
-    nodePackages.typescript-language-server
-
-    fnm
-    moon
-
-    dust
-    fd
-    hyperfine
+    # rectangle # Tiling Manager
+    # vlc # Video Player
+    # zed-editor
     catppuccin-catwalk
-    vivid
+    curl
+    dust
+    eza
+    fd
+    fish
+    fnm
+    hyperfine
+    inputs.home-manager.packages.${pkgs.system}.home-manager
+    moon
+    nodePackages.typescript-language-server
+    rustup
+    vim
+    vivid # Color genratero for `ls` like commands
   ];
 }

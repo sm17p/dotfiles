@@ -48,7 +48,7 @@ with lib; {
     casks = [
       "iterm2"
       # "nushell"
-      "logitech-g-hub"
+      # "logitech-g-hub"
       "amethyst"
       "ferdium"
       "firefox"
@@ -59,7 +59,8 @@ with lib; {
       "discord"
       "visual-studio-code"
       "wave"
-      # "google-chrome"
+      "google-chrome"
+      "raycast"
 
       "gitify" # Git notifications in menu bar
       "meetingbar" # Show meetings in menu bar
@@ -83,6 +84,7 @@ with lib; {
     #
     masApps = {
       "slack" = 803453959;
+      "surfshark" = 1437809329;
       "telegram" = 747648890;
     };
 
@@ -106,6 +108,9 @@ with lib; {
     ];
     warn-dirty = false;
   };
+
+  nix.optimise.automatic = true;
+
   nixpkgs.hostPlatform = "aarch64-darwin";
 
   programs = {
@@ -121,8 +126,18 @@ with lib; {
   services.nix-daemon.enable = true;
   system.configurationRevision = self.rev or self.dirtyRev or null;
   system.defaults = {
-    dock.autohide = true;
-    dock.mru-spaces = false;
+    # controlcenter = {
+    #   Bluetooth = true;
+    # };
+    # controlcenter.BatteryShowPercentage = true;
+    # controlcenter.Bluetooth = true;
+    # controlcenter.NowPlaying = true;
+    # controlcenter.Sound = true;
+    dock = { 
+      autohide = true;
+      mru-spaces = false;
+      orientation = "left";
+    };
     finder.AppleShowAllExtensions = true;
     finder.FXPreferredViewStyle = "clmv";
     loginwindow.LoginwindowText = "yoda, I'm";
@@ -136,6 +151,7 @@ with lib; {
     yoda = {
       home = "/Users/yoda";
       shell = pkgs.fish;
+
       # dscl . list /groups
       # dscl . list /users
       # dscl
