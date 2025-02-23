@@ -16,14 +16,22 @@ with lib; {
 
   imports = [
     ../packages.nix
+    ../services/ollama.nix
   ];
+
+  ids.gids.nixbld = 350;
 
   environment.etc."fish/config.fish".text = mkBefore ''
     # set -gx PNPM_HOME "/Users/yoda/.local/share/pnpm"
     # set -gx PATH "$PNPM_HOME" $PATH
   '';
 
-  fonts.packages = [(pkgs.nerdfonts.override {fonts = ["FiraCode"];})];
+  fonts.packages = [
+    pkgs.nerd-fonts._0xproto
+    pkgs.nerd-fonts.fira-code
+    pkgs.nerd-fonts.open-dyslexic
+    pkgs.nerd-fonts.shure-tech-mono  
+  ];
 
   environment.shells = [
     pkgs.zsh
@@ -44,6 +52,7 @@ with lib; {
     brews = [
       "trash" # Delete files and folders to trash instead of rm
       "git-lfs" # Git LFS for large files
+      "rustup"
     ];
     casks = [
       "iterm2"
@@ -67,6 +76,13 @@ with lib; {
       "obsidian" # Obsidian packaging on Nix is not available for macOS
       "spotify"
       "tailscale"
+      "rectangle"
+
+      "vlc"
+
+      # TODO: 
+      # SketchyBar status bar https://github.com/slano-ls/SketchyBar
+
     ];
     enable = true;
     onActivation = {
@@ -94,8 +110,6 @@ with lib; {
   home-manager.backupFileExtension = "backup";
 
   # Nix Settings
-  nix.configureBuildUsers = true;
-  nix.useDaemon = true;
   nix.package = pkgs.nix;
   nix.settings = {
     experimental-features = [
@@ -111,7 +125,13 @@ with lib; {
 
   nix.optimise.automatic = true;
 
-  nixpkgs.hostPlatform = "aarch64-darwin";
+  nixpkgs = {
+    hostPlatform = "aarch64-darwin";
+    config = {
+      allowBroken = true;
+      allowUnfree = true;
+    };
+  };
 
   programs = {
     fish = {
@@ -123,7 +143,11 @@ with lib; {
   };
 
   security.pam.enableSudoTouchIdAuth = true;
-  services.nix-daemon.enable = true;
+  # services.nix-daemon.enable = true;
+  services.ollama = {
+    enable = true;
+    models = "/Users/yoda/.ollama/models/";
+  };
   system.configurationRevision = self.rev or self.dirtyRev or null;
   system.defaults = {
     # controlcenter = {

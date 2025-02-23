@@ -25,30 +25,14 @@
     ./programs/tealdeer.nix
   ];
 
-  nixpkgs = {
-    # You can add overlays here
-    # overlays = [
-    #   # Add overlays your own flake exports (from overlays and pkgs dir):
-    #   outputs.overlays.additions
-    #   outputs.overlays.modifications
-    #   outputs.overlays.unstable-packages
-
-    #   # You can also add overlays exported from other flakes:
-    #   # neovim-nightly-overlay.overlays.default
-
-    #   # Or define it inline, for example:
-    #   # (final: prev: {
-    #   #   hi = final.hello.overrideAttrs (oldAttrs: {
-    #   #     patches = [ ./change-hello-to-hi.patch ];
-    #   #   });
-    #   # })
-    # ];
-    # Configure your nixpkgs instance
-    config = {
-      # Disable if you don't want unfree packages
-      allowUnfree = true;
-    };
+  catppuccin = {
+    bat.enable = true;
+    fzf.enable = true;
+    fish.enable = true;
+    zellij.enable = true;
   };
+
+  nixpkgs = {};
 
   home = {
     username = "yoda";
@@ -67,7 +51,6 @@
 
     fzf = {
       enable = true;
-      catppuccin.enable = true;
     };
 
     home-manager = {
@@ -85,24 +68,24 @@
     zellij = {
       enable = true;
       settings = {
-        theme =
-          if pkgs.system == "aarch64-darwin"
-          then "dracula"
-          else "default";
-        # https://github.com/nix-community/home-manager/issues/3854
-        themes.dracula = {
-          fg = [248 248 242];
-          bg = [40 42 54];
-          black = [0 0 0];
-          red = [255 85 85];
-          green = [80 250 123];
-          yellow = [241 250 140];
-          blue = [98 114 164];
-          magenta = [255 121 198];
-          cyan = [139 233 253];
-          white = [255 255 255];
-          orange = [255 184 108];
-        };
+        # theme =
+        #   if pkgs.system == "aarch64-darwin"
+        #   then "dracula"
+        #   else "default";
+        # # https://github.com/nix-community/home-manager/issues/3854
+        # themes.dracula = {
+        #   fg = [248 248 242];
+        #   bg = [40 42 54];
+        #   black = [0 0 0];
+        #   red = [255 85 85];
+        #   green = [80 250 123];
+        #   yellow = [241 250 140];
+        #   blue = [98 114 164];
+        #   magenta = [255 121 198];
+        #   cyan = [139 233 253];
+        #   white = [255 255 255];
+        #   orange = [255 184 108];
+        # };
       };
     };
 

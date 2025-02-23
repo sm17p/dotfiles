@@ -10,18 +10,20 @@
     # rectangle # Tiling Manager
     # vlc # Video Player
     # zed-editor
+    # ollama
     catppuccin-catwalk
     curl
     dust
     eza
     fd
-    fish
+    # fish
+    ffmpeg
     fnm
     hyperfine
     inputs.home-manager.packages.${pkgs.system}.home-manager
     moon
+    scc
     nodePackages.typescript-language-server
-    rustup
     vim
     vivid # Color genratero for `ls` like commands
   ];

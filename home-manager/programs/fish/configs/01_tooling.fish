@@ -1,5 +1,5 @@
 # ls/exa/eza
-set -x LS_COLORS (vivid generate catppuccin-frappe)
+set -x LS_COLORS (vivid generate catppuccin-mocha)
 
 # Nix
 fish_add_path -Pm /etc/profiles/per-user/$USER/bin
@@ -12,7 +12,10 @@ set -x PNPM_HOME "$HOME/.local/share/pnpm"
 fish_add_path -P "$PNPM_HOME"
 
 # local bin
-fish_add_path -P "$HOME/.local/bin"
+# fish_add_path -P "$HOME/.local/bin"
+
+# rustup
+fish_add_path -Pm "$HOME/.rustup/toolchains/stable-aarch64-apple-darwin/bin"
 
 function expose_app_to_path
     set -f app $argv[1]
@@ -26,7 +29,9 @@ function expose_app_to_path
 end
 
 # expose_app_to_path "Visual Studio Code"
-expose_app_to_path Ghostty
+# expose_app_to_path Ghostty
 
 # suppress greeting
 set fish_greeting
+
+starship init fish | source
