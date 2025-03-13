@@ -50,6 +50,7 @@ with lib; {
   # Homebrew needs to be installed on its own!
   homebrew = {
     brews = [
+      "exercism"
       "trash" # Delete files and folders to trash instead of rm
       "git-lfs" # Git LFS for large files
       "rustup"
@@ -142,7 +143,7 @@ with lib; {
     };
   };
 
-  security.pam.enableSudoTouchIdAuth = true;
+  security.pam.services.sudo_local.touchIdAuth = true;
   # services.nix-daemon.enable = true;
   services.ollama = {
     enable = true;

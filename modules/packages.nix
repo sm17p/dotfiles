@@ -17,10 +17,12 @@
     eza
     fd
     # fish
+    just
     ffmpeg
     fnm
     hyperfine
     inputs.home-manager.packages.${pkgs.system}.home-manager
+    lapce
     moon
     scc
     nodePackages.typescript-language-server
