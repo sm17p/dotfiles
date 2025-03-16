@@ -11,9 +11,11 @@
     # vlc # Video Player
     # zed-editor
     # ollama
+    bun
     catppuccin-catwalk
     curl
     dust
+    deno
     eza
     fd
     # fish
