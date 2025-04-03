@@ -18,6 +18,7 @@
     deno
     eza
     fd
+    hoppscotch
     # fish
     just
     ffmpeg
