@@ -3,6 +3,7 @@
   inputs,
   ...
 }: {
+
   environment.systemPackages = with pkgs; [
     # pkgs.age
     # pkgs.direnv
@@ -31,5 +32,9 @@
     nodePackages.typescript-language-server
     vim
     vivid # Color genratero for `ls` like commands
+
+    # Nix LSPs
+    nil
+    nixd
   ];
 }
