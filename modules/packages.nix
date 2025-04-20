@@ -19,6 +19,7 @@
     deno
     eza
     fd
+    go
     hoppscotch
     # fish
     just
