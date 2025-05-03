@@ -49,6 +49,12 @@
       enable = true;
     };
 
+    carapace = {
+      enable = true;
+      enableBashIntegration = true;
+      enableFishIntegration = true;
+    };
+
     fzf = {
       enable = true;
     };
