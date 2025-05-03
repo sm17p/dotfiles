@@ -23,6 +23,7 @@
     hoppscotch
     # fish
     just
+    jujutsu # Git-compatible DVCS
     ffmpeg
     fnm
     hyperfine
@@ -31,7 +32,7 @@
     moon
     scc
     nodePackages.typescript-language-server
-    vim
+    neovim
     vivid # Color genratero for `ls` like commands
 
     # Nix LSPs
