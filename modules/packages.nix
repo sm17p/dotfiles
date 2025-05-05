@@ -25,6 +25,7 @@
     # fish
     just
     jujutsu # Git-compatible DVCS
+    firefox-devedition
     ffmpeg
     fnm
     hyperfine
