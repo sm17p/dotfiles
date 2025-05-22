@@ -171,6 +171,7 @@ with lib; {
     screencapture.location = "~/Desktop/Screenshots";
     screensaver.askForPasswordDelay = 10;
   };
+  system.primaryUser = "yoda";
   system.stateVersion = 4;
 
   users.knownUsers = ["yoda"];

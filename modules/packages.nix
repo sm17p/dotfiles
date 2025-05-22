@@ -20,7 +20,7 @@
     eza
     fd
     go
-    gitbutler
+    # gitbutler
     hoppscotch
     # fish
     just
