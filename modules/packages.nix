@@ -3,7 +3,6 @@
   inputs,
   ...
 }: {
-
   environment.systemPackages = with pkgs; [
     # pkgs.age
     # pkgs.direnv

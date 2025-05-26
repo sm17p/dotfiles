@@ -1,14 +1,12 @@
-{ config, lib, pkgs, ... }:
-
-with lib;
-
-let
-
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+with lib; let
   cfg = config.services.ollama;
-
 in {
-  meta.maintainers = [ "velnbur" ];
-
   options = {
     services.ollama = {
       enable = mkOption {
@@ -52,7 +50,7 @@ in {
 
       environmentVariables = mkOption {
         type = types.attrsOf types.str;
-        default = { };
+        default = {};
         example = {
           OLLAMA_LLM_LIBRARY = "cpu";
           HIP_VISIBLE_DEVICES = "0,1";
@@ -69,22 +67,24 @@ in {
   };
 
   config = mkIf cfg.enable {
-
-    environment.systemPackages = [ cfg.package ];
+    environment.systemPackages = [cfg.package];
 
     launchd.user.agents.ollama = {
-      path = [ config.environment.systemPath ];
+      path = [config.environment.systemPath];
 
       serviceConfig = {
         KeepAlive = true;
         RunAtLoad = true;
-        ProgramArguments = [ "${cfg.package}/bin/ollama" "serve" ];
+        ProgramArguments = ["${cfg.package}/bin/ollama" "serve"];
 
-        EnvironmentVariables = cfg.environmentVariables // {
-          OLLAMA_HOST = "${cfg.host}:${toString cfg.port}";
-        } // (optionalAttrs (cfg.models != null) {
-          OLLAMA_MODELS = cfg.models;
-        });
+        EnvironmentVariables =
+          cfg.environmentVariables
+          // {
+            OLLAMA_HOST = "${cfg.host}:${toString cfg.port}";
+          }
+          // (optionalAttrs (cfg.models != null) {
+            OLLAMA_MODELS = cfg.models;
+          });
       };
     };
   };

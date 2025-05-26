@@ -100,7 +100,7 @@
             # User owning the Homebrew prefix
             user = "yoda";
 
-	          # Optional: Declarative tap management
+            # Optional: Declarative tap management
             taps = {
               "homebrew/homebrew-bundle" = homebrew-bundle;
               "homebrew/homebrew-core" = homebrew-core;
@@ -108,7 +108,6 @@
             };
 
             mutableTaps = false;
-           
           };
         }
       ];

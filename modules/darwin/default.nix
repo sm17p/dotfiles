@@ -32,7 +32,7 @@ with lib; {
     pkgs.nerd-fonts.iosevka
     pkgs.nerd-fonts.iosevka-term
     pkgs.nerd-fonts.open-dyslexic
-    pkgs.nerd-fonts.shure-tech-mono  
+    pkgs.nerd-fonts.shure-tech-mono
   ];
 
   environment.shells = [
@@ -70,11 +70,11 @@ with lib; {
       "microsoft-edge"
       "discord"
       "visual-studio-code"
-      "wave"
+      # "wave"
       "google-chrome"
       "raycast"
 
-      "gitify" # Git notifications in menu bar
+      # "gitify" # Git notifications in menu bar
       "meetingbar" # Show meetings in menu bar
       "obsidian" # Obsidian packaging on Nix is not available for macOS
       "spotify"
@@ -83,9 +83,8 @@ with lib; {
 
       "vlc"
 
-      # TODO: 
+      # TODO:
       # SketchyBar status bar https://github.com/slano-ls/SketchyBar
-
     ];
     enable = true;
     onActivation = {
@@ -160,7 +159,7 @@ with lib; {
     # controlcenter.Bluetooth = true;
     # controlcenter.NowPlaying = true;
     # controlcenter.Sound = true;
-    dock = { 
+    dock = {
       autohide = true;
       mru-spaces = false;
       orientation = "left";
