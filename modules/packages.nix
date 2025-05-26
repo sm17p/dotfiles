@@ -36,6 +36,10 @@
     nodePackages.typescript-language-server
     neovim
     vivid # Color genratero for `ls` like commands
+    
+    # Android
+    watchman
+    zulu17
 
     # Nix LSPs
     nil
