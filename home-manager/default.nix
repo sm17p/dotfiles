@@ -112,6 +112,6 @@
   home.shellAliases = {
     "l" = "eza -l -g --icons --git -a";
     "lt" = "eza --tree -g --level=2 --long --icons --git";
-    "nix-rebuild" = "darwin-rebuild switch --flake ~/dotfiles";
+    "nix-rebuild" = "sudo darwin-rebuild switch --flake ~/dotfiles";
   };
 }

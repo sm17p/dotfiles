@@ -16,6 +16,7 @@
     curl
     dust
     deno
+    devenv
     eza
     fd
     go
