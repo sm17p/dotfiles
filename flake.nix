@@ -2,6 +2,23 @@
   description = "Nix config + Flakes + Home Manager";
 
   inputs = {
+    android-nixpkgs = {
+      url = "github:tadfisher/android-nixpkgs/stable";
+
+      # The main branch follows the "canary" channel of the Android SDK
+      # repository. Use another android-nixpkgs branch to explicitly
+      # track an SDK release channel.
+      #
+      # url = "github:tadfisher/android-nixpkgs/stable";
+      # url = "github:tadfisher/android-nixpkgs/beta";
+      # url = "github:tadfisher/android-nixpkgs/preview";
+      # url = "github:tadfisher/android-nixpkgs/canary";
+
+      # If you have nixpkgs as an input, this will replace the "nixpkgs" input
+      # for the "android" flake.
+      #
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     # Nixpkgs
     # nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
     # You can access packages and modules from different nixpkgs revs
@@ -42,6 +59,8 @@
 
   outputs = {
     self,
+    android-nixpkgs,
+    catppuccin,
     home-manager,
     nixpkgs,
     nix-darwin,
@@ -52,6 +71,92 @@
     ...
   } @ inputs: let
     inherit (self) outputs;
+
+    # Define user configurations
+    # https://github.com/AlexNabokikh/nix-config/blob/master/flake.nix
+    users = {
+      sakatagintoki = {
+        # avatar = ./files/avatar/face;
+        email = "smitp.contact@gmail.com";
+        fullName = "Smit P";
+        # gitKey = "C5810093";
+        name = "yoda";
+      };
+    };
+
+    mkNixosConfiguration = system: hostname: username:
+      nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit inputs outputs hostname;
+          userConfig = users.${username};
+          nixosModules = "${self}/modules/nixos";
+        };
+        modules = [./hosts/${hostname}];
+      };
+
+    # Function for nix-darwin system configuration
+    mkDarwinConfiguration = system: hostname: username:
+      nix-darwin.lib.darwinSystem {
+        system = "";
+        specialArgs = {
+          inherit self inputs;
+          userConfig = users.${username};
+          system = system;
+        };
+        modules = [
+          ./modules/darwin
+          # ./hosts/${hostname}
+          home-manager.darwinModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.${username}.imports = [./home-manager];
+            # networking.hostName = hostName;
+            home-manager.extraSpecialArgs = {
+              inherit self inputs;
+              userConfig = users.${username};
+              system = system;
+            };
+          }
+          nix-homebrew.darwinModules.nix-homebrew
+          {
+            nix-homebrew = {
+              # Install Homebrew under the default prefix
+              enable = true;
+
+              # Apple Silicon Only: Also install Homebrew under the default Intel prefix for Rosetta 2
+              enableRosetta = true;
+
+              # User owning the Homebrew prefix
+              user = username;
+
+              # Optional: Declarative tap management
+              taps = {
+                "homebrew/homebrew-bundle" = homebrew-bundle;
+                "homebrew/homebrew-core" = homebrew-core;
+                "homebrew/homebrew-cask" = homebrew-cask;
+              };
+
+              mutableTaps = false;
+            };
+          }
+        ];
+      };
+
+    # Function for Home Manager configuration
+    mkHomeConfiguration = system: username: hostname:
+      home-manager.lib.homeManagerConfiguration {
+        pkgs = import nixpkgs {inherit system;};
+        extraSpecialArgs = {
+          inherit inputs outputs;
+          userConfig = users.${username};
+          nhModules = "${self}/modules/home-manager";
+        };
+        modules = [
+          ./home/${username}/${hostname}
+          catppuccin.homeModules.catppuccin
+        ];
+      };
 
     # Supported systems for your flake packages, shell, etc.
     systems = [
@@ -74,49 +179,17 @@
     # Your custom packages and modifications, exported as overlays
     # overlays = import ./overlays {inherit inputs;};
 
-    defaultPackage.aarch64-darwin = home-manager.defaultPackage.aarch64-darwin;
-
-    darwinConfigurations."sakatagintoki" = nix-darwin.lib.darwinSystem {
-      system = "aarch64-darwin";
-      modules = [
-        ./modules/darwin
-        home-manager.darwinModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.users.yoda.imports = [./home-manager];
-          # networking.hostName = hostName;
-          home-manager.extraSpecialArgs = {inherit inputs;};
-        }
-        nix-homebrew.darwinModules.nix-homebrew
-        {
-          nix-homebrew = {
-            # Install Homebrew under the default prefix
-            enable = true;
-
-            # Apple Silicon Only: Also install Homebrew under the default Intel prefix for Rosetta 2
-            enableRosetta = true;
-
-            # User owning the Homebrew prefix
-            user = "yoda";
-
-            # Optional: Declarative tap management
-            taps = {
-              "homebrew/homebrew-bundle" = homebrew-bundle;
-              "homebrew/homebrew-core" = homebrew-core;
-              "homebrew/homebrew-cask" = homebrew-cask;
-            };
-
-            mutableTaps = false;
-          };
-        }
-      ];
-      specialArgs = {
-        inherit self inputs;
-      };
+    nixosConfigurations = {
+      kotarokatsura = mkNixosConfiguration "aarch64-linux" "kotarokatsura" "yoda";
     };
 
-    # Expose the package set, including overlays, for convenience.
-    darwinPackages = self.darwinConfigurations."sakatagintoki".pkgs;
+    darwinConfigurations = {
+      "sakatagintoki" = mkDarwinConfiguration "aarch64-darwin" "sakatagintoki" "yoda";
+    };
+
+    homeConfigurations = {
+      "nabokikh@energy" = mkHomeConfiguration "x86_64-linux" "nabokikh" "energy";
+      # "yoda@sakatagintoki" = mkHomeConfiguration "aarch64-darwin" "nabokikh" "nabokikh-mac";
+    };
   };
 }
