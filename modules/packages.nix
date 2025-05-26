@@ -36,8 +36,16 @@
     nodePackages.typescript-language-server
     neovim
     vivid # Color genratero for `ls` like commands
-    
+
     # Android
+    # androidSdkPackages.cmdline-tools-latest # Provides adb, avdmanager, sdkmanager, etc.
+    # androidSdkPackages.emulator           # Provides the Android emulator
+    # You might also add specific build tools or platform tools if needed globally, e.g.:
+    # androidSdkPackages.build-tools-35-0-0
+    # androidSdkPackages.platform-tools
+    # androidSdkPackages.platforms-android-35
+    # androidSdkPackages.ndk-26-1-10909125           # Provides the Android emulator
+    # androidSdkPackages.tools
     watchman
     zulu17
 

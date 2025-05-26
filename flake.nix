@@ -2,6 +2,13 @@
   description = "Nix config + Flakes + Home Manager";
 
   inputs = {
+    # Nixpkgs
+    # nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
+    # You can access packages and modules from different nixpkgs revs
+    # at the same time. Here's an working example:
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    # Also see the 'unstable-packages' overlay at 'overlays/default.nix'.
+
     android-nixpkgs = {
       url = "github:tadfisher/android-nixpkgs/stable";
 
@@ -13,18 +20,15 @@
       # url = "github:tadfisher/android-nixpkgs/beta";
       # url = "github:tadfisher/android-nixpkgs/preview";
       # url = "github:tadfisher/android-nixpkgs/canary";
-
-      # If you have nixpkgs as an input, this will replace the "nixpkgs" input
-      # for the "android" flake.
-      #
-      inputs.nixpkgs.follows = "nixpkgs";
     };
-    # Nixpkgs
-    # nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
-    # You can access packages and modules from different nixpkgs revs
-    # at the same time. Here's an working example:
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    # Also see the 'unstable-packages' overlay at 'overlays/default.nix'.
+    # If you have nixpkgs as an input, this will replace the "nixpkgs" input
+    # for the "android" flake.
+    android-nixpkgs.inputs.nixpkgs.follows = "nixpkgs";
+
+    catppuccin = {
+      url = "github:catppuccin/nix";
+    };
+    catppuccin.inputs.nixpkgs.follows = "nixpkgs";
 
     # Home manager
     home-manager.url = "github:nix-community/home-manager";
@@ -52,9 +56,10 @@
       flake = false;
     };
 
-    catppuccin = {
-      url = "github:catppuccin/nix";
-    };
+    # rust-overlay = {
+    #   url = "github:oxalica/rust-overlay";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
   };
 
   outputs = {
@@ -79,43 +84,46 @@
         # avatar = ./files/avatar/face;
         email = "smitp.contact@gmail.com";
         fullName = "Smit P";
+        hostPlatform = "aarch64-darwin";
+        hostName = "sakatagintoki";
         # gitKey = "C5810093";
-        name = "yoda";
+        userName = "yoda";
       };
     };
 
-    mkNixosConfiguration = system: hostname: username:
+    mkNixosConfiguration = system: hostName: userName:
       nixpkgs.lib.nixosSystem {
         specialArgs = {
-          inherit inputs outputs hostname;
-          userConfig = users.${username};
+          inherit inputs outputs hostName;
+          userConfig = users.${userName};
           nixosModules = "${self}/modules/nixos";
         };
-        modules = [./hosts/${hostname}];
+        modules = [./hosts/${hostName}];
       };
 
     # Function for nix-darwin system configuration
-    mkDarwinConfiguration = system: hostname: username:
+    mkDarwinConfiguration = user:
       nix-darwin.lib.darwinSystem {
-        system = "";
+        system = user.hostPlatform;
         specialArgs = {
           inherit self inputs;
-          userConfig = users.${username};
-          system = system;
+          userConfig = user;
         };
         modules = [
           ./modules/darwin
-          # ./hosts/${hostname}
+          # ./hosts/${hostName}
           home-manager.darwinModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.${username}.imports = [./home-manager];
+            home-manager.users.${user.userName}.imports = [
+              android-nixpkgs.hmModule
+              ./home-manager
+            ];
             # networking.hostName = hostName;
             home-manager.extraSpecialArgs = {
               inherit self inputs;
-              userConfig = users.${username};
-              system = system;
+              userConfig = user;
             };
           }
           nix-homebrew.darwinModules.nix-homebrew
@@ -128,7 +136,7 @@
               enableRosetta = true;
 
               # User owning the Homebrew prefix
-              user = username;
+              user = user.userName;
 
               # Optional: Declarative tap management
               taps = {
@@ -144,16 +152,16 @@
       };
 
     # Function for Home Manager configuration
-    mkHomeConfiguration = system: username: hostname:
+    mkHomeConfiguration = system: userName: hostName:
       home-manager.lib.homeManagerConfiguration {
         pkgs = import nixpkgs {inherit system;};
         extraSpecialArgs = {
           inherit inputs outputs;
-          userConfig = users.${username};
+          userConfig = users.${userName};
           nhModules = "${self}/modules/home-manager";
         };
         modules = [
-          ./home/${username}/${hostname}
+          ./home/${userName}/${hostName}
           catppuccin.homeModules.catppuccin
         ];
       };
@@ -180,15 +188,14 @@
     # overlays = import ./overlays {inherit inputs;};
 
     nixosConfigurations = {
-      kotarokatsura = mkNixosConfiguration "aarch64-linux" "kotarokatsura" "yoda";
+      # kotarokatsura = mkNixosConfiguration "aarch64-linux" "kotarokatsura" "yoda";
     };
 
     darwinConfigurations = {
-      "sakatagintoki" = mkDarwinConfiguration "aarch64-darwin" "sakatagintoki" "yoda";
+      "sakatagintoki" = mkDarwinConfiguration users.sakatagintoki;
     };
 
     homeConfigurations = {
-      "nabokikh@energy" = mkHomeConfiguration "x86_64-linux" "nabokikh" "energy";
       # "yoda@sakatagintoki" = mkHomeConfiguration "aarch64-darwin" "nabokikh" "nabokikh-mac";
     };
   };

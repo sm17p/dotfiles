@@ -7,9 +7,9 @@ NixOS + home-manager.
 
 - [Minimal version](./minimal):
     - NixOS configuration on `nixos/configuration.nix`, accessible via
-      `nixos-rebuild --flake .`
+      `nixos-rebuild --flake .#hostname`
     - Home-manager configuration on `home-manager/home.nix`, accessible via
-      `home-manager --flake .`
+      `home-manager --flake .hostname`
 - [Standard version](./standard):
     - Basic boilerplate for adding custom packages (under `pkgs`) and overlays
       (under `overlay`). Accessible on your system, home config, as well as `nix
@@ -56,9 +56,9 @@ and come back here to get your feet wet, it's the best way to learn!
 - [Install git](https://nixos.wiki/wiki/git), if you haven't already.
 - Create a repository for your config, for example:
 ```bash
-cd ~/Documents
-git init nix-config
-cd nix-config
+cd ~/dotfiles
+git clone <repo>
+make bootstrap-mac
 ```
 - Make sure you're running Nix 2.4+, and opt into the experimental `flakes` and `nix-command` features:
 ```bash

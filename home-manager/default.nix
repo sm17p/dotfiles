@@ -1,11 +1,13 @@
 # This is your home-manager configuration file
 # Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
 {
+  # android-nixpkgs,
   inputs,
   outputs,
   lib,
   config,
   pkgs,
+  userConfig,
   ...
 }: {
   # You can import other home-manager modules here
@@ -25,6 +27,21 @@
     ./programs/tealdeer.nix
   ];
 
+  android-sdk.enable = true;
+  # # Optional; default path is "~/.local/share/android".
+  android-sdk.path = "${config.home.homeDirectory}/.android/sdk";
+  android-sdk.packages = sdk:
+    with sdk; [
+      build-tools-35-0-0
+      cmdline-tools-latest
+      # emulator
+      platform-tools
+      platforms-android-35
+      # sources-android-35
+      ndk-27-2-12479018    # Provides the Android emulator
+      tools
+  ];
+
   catppuccin = {
     bat.enable = true;
     fzf.enable = true;
@@ -32,11 +49,9 @@
     zellij.enable = true;
   };
 
-  nixpkgs = {};
-
   home = {
-    username = "yoda";
-    homeDirectory = "/Users/yoda";
+    username = userConfig.userName;
+    homeDirectory = "/Users/${userConfig.userName}";
   };
 
   # Enable home-manager and git
@@ -112,6 +127,6 @@
   home.shellAliases = {
     "l" = "eza -l -g --icons --git -a";
     "lt" = "eza --tree -g --level=2 --long --icons --git";
-    "nix-rebuild" = "sudo darwin-rebuild switch --flake ~/dotfiles";
+    "nix-rebuild" = "sudo darwin-rebuild switch --flake";
   };
 }

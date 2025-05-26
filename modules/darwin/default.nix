@@ -1,9 +1,10 @@
 {
+  config,
+  inputs,
+  lib,
   pkgs,
   self,
-  lib,
-  inputs,
-  config,
+  userConfig,
   ...
 }:
 with lib; {
@@ -128,11 +129,13 @@ with lib; {
   nix.optimise.automatic = true;
 
   nixpkgs = {
-    hostPlatform = "aarch64-darwin";
+    hostPlatform = userConfig.hostPlatform;
     config = {
+      android_sdk.accept_license = true;
       allowBroken = true;
       allowUnfree = true;
     };
+    overlays = [ inputs.android-nixpkgs.overlays.default ];
   };
 
   programs = {
