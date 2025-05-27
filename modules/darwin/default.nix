@@ -62,6 +62,7 @@ with lib; {
     casks = [
       # "nushell"
       # "logitech-g-hub"
+      "android-studio"
       "amethyst"
       "ferdium"
       "firefox"

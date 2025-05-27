@@ -17,6 +17,7 @@
     dust
     deno
     devenv
+    direnv
     eza
     fd
     go
@@ -47,7 +48,7 @@
     # androidSdkPackages.ndk-26-1-10909125           # Provides the Android emulator
     # androidSdkPackages.tools
     watchman
-    zulu17
+    # zulu17
 
     # Nix LSPs
     nil
