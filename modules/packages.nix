@@ -14,6 +14,7 @@
     bun
     catppuccin-catwalk
     curl
+    cmake
     dust
     deno
     devenv
