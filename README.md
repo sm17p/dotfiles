@@ -273,28 +273,4 @@ sure to also add them to the listing at `modules/nixos/default.nix` or
 See [the wiki article](https://nixos.wiki/wiki/Module) to learn more about
 them.
 
-# Troubleshooting / FAQ
 
-Please [let me know](https://github.com/Misterio77/nix-starter-config/issues)
-any questions or issues you face with these templates, so I can add more info
-here!
-
-## Nix says my repo files don't exist, even though they do!
-
-Nix flakes only see files that git is currently tracked, so just `git add .`
-and you should be good to go. Files on `.gitignore`, of course, are invisible
-to nix - this is to guarantee your build won't depend on anything that is not
-on your repo.
-
-## Nix installs the wrong version of software/fails to find new software
-
-The nix dependencies (such as `nixpkgs`) used by your configuration will
-strictly follow the `flake.lock` file, using the commits written into it when
-you (re)generated.
-
-To update your flake inputs, simply use `nix flake update`.
-
-<!--
-# Learning resources
-TODO
--->

@@ -45,7 +45,6 @@
 
   catppuccin = {
     bat.enable = true;
-    fzf.enable = true;
     fish.enable = true;
     zellij.enable = true;
   };
@@ -61,25 +60,31 @@
       enable = true;
     };
 
+    # Replacement for a shell history which records additional commands context with optional encrypted synchronization between machines
+    atuin = {
+      enable = true;
+      enableBashIntegration = true;
+      enableFishIntegration = true;
+      enableZshIntegration = true;
+    };
+
     bat = {
       enable = true;
     };
 
+    # Multi-shell multi-command argument completer
     carapace = {
       enable = true;
       enableBashIntegration = true;
       enableFishIntegration = true;
-    };
-
-    fzf = {
-      enable = true;
+      enableZshIntegration = true;
     };
 
     home-manager = {
       enable = true;
     };
 
-    htop = {
+    bottom = {
       enable = true;
     };
 
@@ -111,6 +116,7 @@
       };
     };
 
+    # A smarter cd command. Supports all major shells.
     zoxide = {
       enable = true;
       enableBashIntegration = true;

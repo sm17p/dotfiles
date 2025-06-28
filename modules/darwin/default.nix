@@ -80,7 +80,6 @@ with lib; {
       "meetingbar" # Show meetings in menu bar
       "obsidian" # Obsidian packaging on Nix is not available for macOS
       "spotify"
-      "tailscale"
       "rectangle"
 
       "vlc"
@@ -136,7 +135,7 @@ with lib; {
       allowBroken = true;
       allowUnfree = true;
     };
-    overlays = [ inputs.android-nixpkgs.overlays.default ];
+    overlays = [inputs.android-nixpkgs.overlays.default];
   };
 
   programs = {
