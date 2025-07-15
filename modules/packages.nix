@@ -27,7 +27,6 @@
     ffmpeg
     firefox-devedition
     fnm
-    gitbutler
     go
     hoppscotch # Open source API development ecosystem
     hyperfine # Command-line benchmarking tool
