@@ -40,6 +40,11 @@
 
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
 
+    nur = {
+      url = "github:nix-community/NUR";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # Optional: Declarative tap management
     homebrew-bundle = {
       url = "github:homebrew/homebrew-bundle";
@@ -54,6 +59,13 @@
     homebrew-cask = {
       url = "github:homebrew/homebrew-cask";
       flake = false;
+    };
+
+    zen-browser = {
+      url = "github:0xc000022070/zen-browser-flake";
+      # IMPORTANT: we're using "libgbm" and is only available in unstable so ensure
+      # to have it up-to-date or simply don't specify the nixpkgs input
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # rust-overlay = {

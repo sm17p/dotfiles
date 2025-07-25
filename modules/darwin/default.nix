@@ -65,7 +65,6 @@ with lib; {
       "android-studio"
       "amethyst"
       "ferdium"
-      "firefox"
       "marta"
       "signal"
       "brave-browser"
@@ -82,6 +81,7 @@ with lib; {
       "spotify"
       "rectangle"
 
+      "firefox"
       "vlc"
 
       # TODO:
@@ -110,7 +110,7 @@ with lib; {
     taps = builtins.attrNames config.nix-homebrew.taps;
   };
 
-  home-manager.backupFileExtension = "backup";
+  home-manager.backupFileExtension = "bak";
 
   # Nix Settings
   nix.package = pkgs.nix;
@@ -135,7 +135,7 @@ with lib; {
       allowBroken = true;
       allowUnfree = true;
     };
-    overlays = [inputs.android-nixpkgs.overlays.default];
+    overlays = [inputs.android-nixpkgs.overlays.default inputs.nur.overlays.default];
   };
 
   programs = {

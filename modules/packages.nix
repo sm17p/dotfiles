@@ -44,7 +44,7 @@
     tailscale # Node agent for Tailscale, a mesh VPN built on WireGuard
     vivid # Color genratero for `ls` like commands
     yaak # Desktop API client for organizing and executing REST, GraphQL, and gRPC requests
-
+    # inputs.zen-browser
     # Android
     # androidSdkPackages.cmdline-tools-latest # Provides adb, avdmanager, sdkmanager, etc.
     # androidSdkPackages.emulator           # Provides the Android emulator

@@ -82,9 +82,6 @@ Here's some awesome blog posts about it:
 - [NixOS: tmpfs as root](https://elis.nu/blog/2020/05/nixos-tmpfs-as-root/) and
   [tmpfs as home](https://elis.nu/blog/2020/06/nixos-tmpfs-as-home/)
 
-Note that for `home-manager` to work correctly here, you need to set up its
-NixOS module, as described in the [previous section](#use-home-manager-as-a-nixos-module).
-
 ## Adding custom packages
 
 Something you want to use that's not in nixpkgs yet? You can easily build and
@@ -126,5 +123,3 @@ sure to also add them to the listing at `modules/nixos/default.nix` or
 
 See [the wiki article](https://nixos.wiki/wiki/Module) to learn more about
 them.
-
-
