@@ -1,6 +1,7 @@
 {
   pkgs,
   inputs,
+  self,
   ...
 }: {
   environment.systemPackages = with pkgs; [
@@ -22,10 +23,12 @@
     direnv
     dua # Tool to conveniently learn about the disk usage of directories
     dust # du + rust = dust. Like du but more intuitive
+    # exifcleaner
+    self.packages.${pkgs.system}.exifcleaner
     eza
     fd # Simple, fast and user-friendly alternative to find
     ffmpeg
-    firefox-devedition
+    # firefox-devedition
     fnm
     go
     hoppscotch # Open source API development ecosystem
