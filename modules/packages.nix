@@ -13,6 +13,7 @@
     # zed-editor
     # ollama
     # fish
+    awscli2
     bandwhich # Terminal bandwidth utilization tool
     bun
     catppuccin-catwalk
@@ -25,11 +26,13 @@
     dust # du + rust = dust. Like du but more intuitive
     # exifcleaner
     self.packages.${pkgs.system}.exifcleaner
+    mkcert
     eza
     fd # Simple, fast and user-friendly alternative to find
     ffmpeg
     # firefox-devedition
     fnm
+    rbenv
     go
     hoppscotch # Open source API development ecosystem
     hyperfine # Command-line benchmarking tool
@@ -41,6 +44,7 @@
     neovim
     nodePackages.typescript-language-server
     pastel # Command-line tool to generate, analyze, convert and manipulate colors
+    pdftk
     ripgrep # Utility that combines the usability of The Silver Searcher with the raw speed of grep
     silicon # Create beautiful image of your source code
     scc # Very fast accurate code counter with complexity calculations and COCOMO estimates written in pure Go

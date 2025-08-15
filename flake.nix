@@ -129,7 +129,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.${user.userName}.imports = [
-              android-nixpkgs.hmModule
+              # TEMP android-nixpkgs.hmModule
               ./home-manager
             ];
             # networking.hostName = hostName;

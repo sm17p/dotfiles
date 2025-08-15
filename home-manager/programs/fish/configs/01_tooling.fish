@@ -15,7 +15,7 @@ fish_add_path -P "$PNPM_HOME"
 # fish_add_path -P "$HOME/.local/bin"
 
 # java
-set -gx JAVA_HOME (string match -r '(.+)/bin/javac' --groups 1 (realpath (type -p javac)))
+# set -gx JAVA_HOME (string match -r '(.+)/bin/javac' --groups 1 (realpath (type -p javac)))
 # set -gx ANDROID_HOME ~/.android/sdk
 # set NDK (ls -1 $ANDROID_HOME/ndk | head -n 1)
 # set -gx NDK_HOME "$ANDROID_HOME/ndk/$NDK"
@@ -43,4 +43,17 @@ set fish_greeting
 starship init fish | source
 direnv hook fish | source
 atuin init fish | source
+set -gx PATH '/Users/yoda/.rbenv/shims' $PATH
+set -gx RBENV_SHELL fish
+command rbenv rehash 2>/dev/null
+function rbenv
+  set command $argv[1]
+  set -e argv[1]
 
+  switch "$command"
+  case rehash shell
+    rbenv "sh-$command" $argv|source
+  case '*'
+    command rbenv "$command" $argv
+  end
+end

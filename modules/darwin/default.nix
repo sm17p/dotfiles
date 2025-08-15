@@ -55,16 +55,27 @@ with lib; {
     brews = [
       "exercism"
       "pkgconf"
+      "ruby-build"
       "trash" # Delete files and folders to trash instead of rm
       "git-lfs" # Git LFS for large files
+      "nss"
       "rustup"
+      "postgresql"
+      # GUMROAD
+      "mysql@8.0"
+      "percona-toolkit"
+      "imagemagick"
+      "libvips"
+      "libsodium"
     ];
     casks = [
       # "nushell"
       # "logitech-g-hub"
-      "android-studio"
-      "amethyst"
-      "ferdium"
+      # "android-studio"
+      # "amethyst"
+      # "ferdium"
+      # "handbrake-app"
+      "losslesscut"
       "marta"
       "signal"
       "brave-browser"
@@ -76,8 +87,8 @@ with lib; {
       "raycast"
 
       # "gitify" # Git notifications in menu bar
-      "meetingbar" # Show meetings in menu bar
-      "obsidian" # Obsidian packaging on Nix is not available for macOS
+      # "meetingbar" # Show meetings in menu bar
+      # "obsidian" # Obsidian packaging on Nix is not available for macOS
       "spotify"
       "rectangle"
 
@@ -131,11 +142,12 @@ with lib; {
   nixpkgs = {
     hostPlatform = userConfig.hostPlatform;
     config = {
-      android_sdk.accept_license = true;
+      # android_sdk.accept_license = true;
       allowBroken = true;
       allowUnfree = true;
     };
-    overlays = [inputs.android-nixpkgs.overlays.default inputs.nur.overlays.default];
+    # overlays = [inputs.android-nixpkgs.overlays.default inputs.nur.overlays.default];
+    overlays = [inputs.nur.overlays.default];
   };
 
   programs = {
