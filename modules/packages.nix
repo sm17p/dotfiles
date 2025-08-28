@@ -38,11 +38,13 @@
     hyperfine # Command-line benchmarking tool
     inputs.home-manager.packages.${pkgs.system}.home-manager
     jujutsu # Git-compatible DVCS
-    just
+    just #Handy way to save and run project-specific commands
     lapce # Lightning-fast and Powerful Code Editor written in Rust
+    lefthook #Fast and powerful Git hooks manager for any type of projects
     moon
     neovim
     nodePackages.typescript-language-server
+    osv-scanner
     pastel # Command-line tool to generate, analyze, convert and manipulate colors
     pdftk
     ripgrep # Utility that combines the usability of The Silver Searcher with the raw speed of grep
