@@ -31,14 +31,14 @@
     fd # Simple, fast and user-friendly alternative to find
     ffmpeg
     # firefox-devedition
-    fnm
-    rbenv
+    # fnm
+    # rbenv
     go
     hoppscotch # Open source API development ecosystem
     hyperfine # Command-line benchmarking tool
     inputs.home-manager.packages.${pkgs.system}.home-manager
     jujutsu # Git-compatible DVCS
-    just #Handy way to save and run project-specific commands
+    just # Handy way to save and run project-specific commands
     lapce # Lightning-fast and Powerful Code Editor written in Rust
     lefthook # Fast and powerful Git hooks manager for any type of projects
     moon # Task runner and repo management tool for the web ecosystem, written in Rust

@@ -5,7 +5,7 @@ set -x LS_COLORS (vivid generate catppuccin-mocha)
 fish_add_path -Pm /etc/profiles/per-user/$USER/bin
 
 # fnm shell env
-fnm env --use-on-cd --shell fish | source
+# fnm env --use-on-cd --shell fish | source
 
 # pnpm
 set -x PNPM_HOME "$HOME/.local/share/pnpm"
@@ -43,17 +43,24 @@ set fish_greeting
 starship init fish | source
 direnv hook fish | source
 atuin init fish | source
-set -gx PATH '/Users/yoda/.rbenv/shims' $PATH
-set -gx RBENV_SHELL fish
-command rbenv rehash 2>/dev/null
-function rbenv
-  set command $argv[1]
-  set -e argv[1]
 
-  switch "$command"
-  case rehash shell
-    rbenv "sh-$command" $argv|source
-  case '*'
-    command rbenv "$command" $argv
-  end
+if status is-interactive
+    mise activate fish | source
+else
+    mise activate fish --shims | source
 end
+
+# set -gx PATH '/Users/yoda/.rbenv/shims' $PATH
+# set -gx RBENV_SHELL fish
+# command rbenv rehash 2>/dev/null
+# function rbenv
+#   set command $argv[1]
+#   set -e argv[1]
+
+#   switch "$command"
+#   case rehash shell
+#     rbenv "sh-$command" $argv|source
+#   case '*'
+#     command rbenv "$command" $argv
+#   end
+# end

@@ -43,11 +43,13 @@ with lib; {
 
   environment.variables = {
     ASTRO_TELEMETRY_DISABLED = "1";
-    FNM_COREPACK_ENABLED = "true";
-    FNM_RESOLVE_ENGINES = "true";
+    # FNM_COREPACK_ENABLED = "true";
+    # FNM_RESOLVE_ENGINES = "true";
     HOMEBREW_NO_ANALYTICS = "1";
     HOMEBREW_NO_INSECURE_REDIRECT = "1";
     HOMEBREW_NO_EMOJI = "1";
+    MISE_NODE_COREPACK = "true";
+    VERCEL_TELEMETRY_DISABLED = "1";
   };
 
   # Homebrew needs to be installed on its own!
