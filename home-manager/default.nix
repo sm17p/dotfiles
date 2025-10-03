@@ -120,7 +120,7 @@
     };
 
     zen-browser = {
-      enable = true;
+      enable = false;
       # nativeMessagingHosts = [pkgs.firefoxpwa];
       policies = {
         AutofillAddressEnabled = true;

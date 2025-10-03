@@ -55,6 +55,7 @@ with lib; {
   # Homebrew needs to be installed on its own!
   homebrew = {
     brews = [
+      "awscli"
       "exercism"
       "pkgconf"
       "ruby-build"
@@ -78,6 +79,8 @@ with lib; {
       # "ferdium"
       # "handbrake-app"
       # "losslesscut"
+      "cursor"
+      "docker"
       "marta"
       "signal"
       "brave-browser"

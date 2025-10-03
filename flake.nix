@@ -194,7 +194,7 @@
     # Accessible through 'nix build', 'nix shell', etc
     packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
     # Formatter for your nix files, available through 'nix fmt'
-    # Other options beside 'alejandra' include 'nixpkgs-fmt'
+    # Other options beside 'alejandra' include 'nixfmt'
     formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
     # Your custom packages and modifications, exported as overlays
     # overlays = import ./overlays {inherit inputs;};

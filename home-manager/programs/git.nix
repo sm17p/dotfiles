@@ -5,6 +5,8 @@ _: {
 
     ignores = [
       ".DS_Store"
+      "/playwright-report/"
+      "/playwright/.cache/"
     ];
 
     extraConfig = {

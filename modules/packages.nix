@@ -13,7 +13,7 @@
     # zed-editor
     # ollama
     # fish
-    awscli2
+    # awscli2
     bandwhich # Terminal bandwidth utilization tool
     bun
     catppuccin-catwalk
@@ -39,7 +39,7 @@
     inputs.home-manager.packages.${pkgs.system}.home-manager
     jujutsu # Git-compatible DVCS
     just # Handy way to save and run project-specific commands
-    lapce # Lightning-fast and Powerful Code Editor written in Rust
+    # lapce # Lightning-fast and Powerful Code Editor written in Rust
     lefthook # Fast and powerful Git hooks manager for any type of projects
     moon # Task runner and repo management tool for the web ecosystem, written in Rust
     mise # mise is a tool that manages installations of programming language runtimes and other tools for local development. For example, it can be used to manage multiple versions of Node.js, Python, Ruby, Go, etc. on the same machine.
@@ -53,7 +53,7 @@
     scc # Very fast accurate code counter with complexity calculations and COCOMO estimates written in pure Go
     tailscale # Node agent for Tailscale, a mesh VPN built on WireGuard
     vivid # Color genratero for `ls` like commands
-    yaak # Desktop API client for organizing and executing REST, GraphQL, and gRPC requests
+    # yaak # Desktop API client for organizing and executing REST, GraphQL, and gRPC requests
     # inputs.zen-browser
     # Android
     # androidSdkPackages.cmdline-tools-latest # Provides adb, avdmanager, sdkmanager, etc.
@@ -67,7 +67,8 @@
     watchman
     # zulu17
 
-    # Nix LSPs
+    # Nix
+    alejandra
     nil
     nixd
   ];
