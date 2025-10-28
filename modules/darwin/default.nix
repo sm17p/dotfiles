@@ -119,7 +119,7 @@ with lib; {
     #
     masApps = {
       # "slack" = 803453959;
-      "surfshark" = 1437809329;
+      # "surfshark" = 1437809329;
       "telegram" = 747648890;
     };
 
@@ -170,7 +170,7 @@ with lib; {
   security.pam.services.sudo_local.touchIdAuth = true;
   # services.nix-daemon.enable = true;
   services.ollama = {
-    enable = true;
+    enable = false;
     models = "/Users/yoda/.ollama/models/";
   };
   system.configurationRevision = self.rev or self.dirtyRev or null;
