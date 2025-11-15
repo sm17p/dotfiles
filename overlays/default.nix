@@ -10,14 +10,26 @@
     # example = prev.example.overrideAttrs (oldAttrs: rec {
     # ...
     # });
+    # Disable tests for fish - pexpect Python module is missing in nixpkgs-unstable
+    # The error is in the test suite (missing pexpect dependency), not the actual binary
+    # fish = prev.fish.overrideAttrs (oldAttrs: {
+    #   doCheck = false;
+    # });
+
+    # Disable tests for cachix - it fails with nix 2.31.2 due to symbol mismatch
+    # The error is in the test suite, not the actual binary, so disabling tests is safe
+    # cachix = prev.cachix.overrideAttrs (oldAttrs: {
+    #   doCheck = false;
+    # });
   };
 
   # When applied, the unstable nixpkgs set (declared in the flake inputs) will
   # be accessible through 'pkgs.unstable'
-  unstable-packages = final: _prev: {
-    unstable = import inputs.nixpkgs-unstable {
-      system = final.system;
-      config.allowUnfree = true;
-    };
-  };
+  # Note: Currently disabled since nixpkgs is already pointing to unstable
+  # unstable-packages = final: _prev: {
+  #   unstable = import inputs.nixpkgs-unstable {
+  #     system = final.system;
+  #     config.allowUnfree = true;
+  #   };
+  # };
 }

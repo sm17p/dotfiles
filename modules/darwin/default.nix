@@ -118,7 +118,7 @@ with lib; {
     # $ mas search <app name>
     #
     masApps = {
-      "slack" = 803453959;
+      # "slack" = 803453959;
       "surfshark" = 1437809329;
       "telegram" = 747648890;
     };
@@ -151,8 +151,11 @@ with lib; {
       allowBroken = true;
       allowUnfree = true;
     };
-    # overlays = [inputs.android-nixpkgs.overlays.default inputs.nur.overlays.default];
-    overlays = [inputs.nur.overlays.default];
+    overlays = [
+      inputs.nur.overlays.default
+      self.overlays.additions
+      self.overlays.modifications
+    ];
   };
 
   programs = {

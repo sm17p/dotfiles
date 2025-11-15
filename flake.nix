@@ -197,7 +197,7 @@
     # Other options beside 'alejandra' include 'nixfmt'
     formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
     # Your custom packages and modifications, exported as overlays
-    # overlays = import ./overlays {inherit inputs;};
+    overlays = import ./overlays {inherit inputs;};
 
     nixosConfigurations = {
       # kotarokatsura = mkNixosConfiguration "aarch64-linux" "kotarokatsura" "yoda";
