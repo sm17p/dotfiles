@@ -101,6 +101,15 @@
         # gitKey = "C5810093";
         userName = "yoda";
       };
+      hijikatatoshiro = {
+        # avatar = ./files/avatar/face;
+        email = "smitp.contact@gmail.com";
+        fullName = "Smit P";
+        hostPlatform = "aarch64-darwin";
+        hostName = "hijikatatoshiro";
+        # gitKey = "C5810093";
+        userName = "yoda";
+      };
     };
 
     mkNixosConfiguration = system: hostName: userName:
@@ -205,6 +214,7 @@
 
     darwinConfigurations = {
       "sakatagintoki" = mkDarwinConfiguration users.sakatagintoki;
+      "hijikatatoshiro" = mkDarwinConfiguration users.hijikatatoshiro;
     };
 
     homeConfigurations = {
