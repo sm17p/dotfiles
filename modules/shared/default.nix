@@ -38,6 +38,13 @@ with lib; {
       "nix-command"
       "flakes"
     ];
+    substituters = [
+      "https://devenv.cachix.org"
+    ];
+    trusted-public-keys = [
+      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+      "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
+    ];
     allowed-users = [
       "yoda"
       "root"
@@ -68,4 +75,3 @@ with lib; {
 
   system.configurationRevision = self.rev or self.dirtyRev or null;
 }
-

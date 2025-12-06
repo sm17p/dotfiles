@@ -53,6 +53,7 @@ with lib; {
       "rectangle"
       "signal"
       "spotify"
+      "steam"
       "vlc"
       "wezterm"
       "zed"
@@ -110,18 +111,20 @@ with lib; {
       mru-spaces = false;
       orientation = "left";
       persistent-apps = [
-        {app = "/Users/${userConfig.userName}/Applications/Home Manager Apps/Visual Studio Code.app";}
         {app = "/Applications/Cursor.app";}
+        {app = "/Users/${userConfig.userName}/Applications/Home Manager Apps/Visual Studio Code.app";}
         {app = "/Applications/Zed.app";}
         {app = "/Applications/Google Chrome.app";}
         {app = "/Applications/Firefox.app";}
         # {app = "/Applications/Firefox Developer Edition.app";}
         {app = "/Applications/Microsoft Edge.app";}
         {app = "/Users/${userConfig.userName}/Applications/Home Manager Apps/Zen Browser (Beta).app";}
+        {app = "/Applications/LM Studio.app";}
         {app = "/Applications/Docker.app";}
         {app = "/Applications/Alacritty.app";}
         {app = "/Applications/WezTerm.app";}
-        {app = "/Applications/LM Studio.app";}
+        {app = "/System/Applications/Music.app";}
+        {app = "/Applications/Spotify.app";}
       ];
     };
     finder.AppleShowAllExtensions = true;

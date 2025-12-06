@@ -161,9 +161,11 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.${host.user.userName}.imports = [
-              ./home-manager
-            ] ++ (map (profile: ./home-manager/profiles/${profile}.nix) host.profiles);
+            home-manager.users.${host.user.userName}.imports =
+              [
+                ./home-manager
+              ]
+              ++ (map (profile: ./home-manager/profiles/${profile}.nix) host.profiles);
             home-manager.extraSpecialArgs = {
               inherit self inputs;
               userConfig = host.user;

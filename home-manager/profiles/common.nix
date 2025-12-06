@@ -12,6 +12,7 @@
     ../programs/firefox.nix
     ../programs/git.nix
     ../programs/tealdeer.nix
+    # ../configs/mise-config.nix
   ];
 
   catppuccin = {
