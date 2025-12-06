@@ -8,24 +8,7 @@
   ...
 }:
 with lib; {
-  # List packages installed in system profile. To search by name, run:
-  # $ nix-env -qaP | grep wget
-
-  # environment.etc."zshenv".text = mkBefore ''
-  #     set -x
-  # '';
-
-  imports = [
-    ../packages.nix
-    ../services/ollama.nix
-  ];
-
   ids.gids.nixbld = 350;
-
-  environment.etc."fish/config.fish".text = mkBefore ''
-    # set -gx PNPM_HOME "/Users/yoda/.local/share/pnpm"
-    # set -gx PATH "$PNPM_HOME" $PATH
-  '';
 
   fonts.packages = [
     pkgs.nerd-fonts._0xproto
@@ -35,22 +18,6 @@ with lib; {
     pkgs.nerd-fonts.open-dyslexic
     pkgs.nerd-fonts.shure-tech-mono
   ];
-
-  environment.shells = [
-    pkgs.zsh
-    pkgs.fish
-  ];
-
-  environment.variables = {
-    ASTRO_TELEMETRY_DISABLED = "1";
-    # FNM_COREPACK_ENABLED = "true";
-    # FNM_RESOLVE_ENGINES = "true";
-    HOMEBREW_NO_ANALYTICS = "1";
-    HOMEBREW_NO_INSECURE_REDIRECT = "1";
-    HOMEBREW_NO_EMOJI = "1";
-    MISE_NODE_COREPACK = "true";
-    VERCEL_TELEMETRY_DISABLED = "1";
-  };
 
   # Homebrew needs to be installed on its own!
   homebrew = {
@@ -64,7 +31,7 @@ with lib; {
       "nss"
       "rustup"
       "postgresql"
-      # GUMROAD
+      # GRD
       "mysql@8.0"
       "percona-toolkit"
       "imagemagick"
@@ -72,36 +39,36 @@ with lib; {
       "libsodium"
     ];
     casks = [
-      # "nushell"
-      # "logitech-g-hub"
-      # "android-studio"
-      # "amethyst"
-      # "ferdium"
-      # "handbrake-app"
-      # "losslesscut"
-      "cursor"
-      "docker-desktop"
-      "marta"
-      "signal"
+      "alacritty"
       "brave-browser"
-      # "microsoft-edge"
+      "cursor"
       "discord"
-      "visual-studio-code"
-      # "wave"
+      "docker-desktop"
+      "firefox"
       "google-chrome"
+      "lm-studio"
+      "marta"
+      "microsoft-edge"
       "raycast"
-
+      "rectangle"
+      "signal"
+      "spotify"
+      "vlc"
+      "wezterm"
+      "zed"
+      # "amethyst"
+      # "android-studio"
+      # "ferdium"
+      # "firefox-developer-edition"
       # "gitify" # Git notifications in menu bar
+      # "handbrake-app"
+      # "logitech-g-hub"
+      # "losslesscut"
       # "meetingbar" # Show meetings in menu bar
       # "obsidian" # Obsidian packaging on Nix is not available for macOS
-      "spotify"
-      "rectangle"
-
-      "firefox"
-      "vlc"
-
-      # TODO:
+      # "visual-studio-code"
       # SketchyBar status bar https://github.com/slano-ls/SketchyBar
+      # TODO:
     ];
     enable = true;
     onActivation = {
@@ -118,74 +85,44 @@ with lib; {
     # $ mas search <app name>
     #
     masApps = {
-      # "slack" = 803453959;
-      # "surfshark" = 1437809329;
-      "telegram" = 747648890;
+      slack = 803453959;
+      surfshark = 1437809329;
+      telegram = 747648890;
     };
 
     taps = builtins.attrNames config.nix-homebrew.taps;
   };
 
-  home-manager.backupFileExtension = "bak";
-
-  # Nix Settings
-  nix.package = pkgs.nix;
-  nix.settings = {
-    experimental-features = [
-      "nix-command"
-      "flakes"
-    ];
-    allowed-users = [
-      "yoda"
-      "root"
-    ];
-    warn-dirty = false;
-  };
-
-  nix.optimise.automatic = true;
-
-  nixpkgs = {
-    hostPlatform = userConfig.hostPlatform;
-    config = {
-      # android_sdk.accept_license = true;
-      allowBroken = true;
-      allowUnfree = true;
-    };
-    overlays = [
-      inputs.nur.overlays.default
-      self.overlays.additions
-      self.overlays.modifications
-    ];
-  };
-
-  programs = {
-    fish = {
-      enable = true;
-    };
-    zsh = {
-      enable = true;
-    };
-  };
-
   security.pam.services.sudo_local.touchIdAuth = true;
   # services.nix-daemon.enable = true;
-  services.ollama = {
-    enable = false;
-    models = "/Users/yoda/.ollama/models/";
-  };
-  system.configurationRevision = self.rev or self.dirtyRev or null;
+
   system.defaults = {
-    # controlcenter = {
-    #   Bluetooth = true;
-    # };
-    # controlcenter.BatteryShowPercentage = true;
-    # controlcenter.Bluetooth = true;
-    # controlcenter.NowPlaying = true;
-    # controlcenter.Sound = true;
+    controlcenter = {
+      BatteryShowPercentage = true;
+      Bluetooth = true;
+      NowPlaying = true;
+      Sound = true;
+    };
     dock = {
       autohide = true;
+      enable-spring-load-actions-on-all-items = true;
+      magnification = false;
       mru-spaces = false;
       orientation = "left";
+      persistent-apps = [
+        {app = "/Users/${userConfig.userName}/Applications/Home Manager Apps/Visual Studio Code.app";}
+        {app = "/Applications/Cursor.app";}
+        {app = "/Applications/Zed.app";}
+        {app = "/Applications/Google Chrome.app";}
+        {app = "/Applications/Firefox.app";}
+        # {app = "/Applications/Firefox Developer Edition.app";}
+        {app = "/Applications/Microsoft Edge.app";}
+        {app = "/Users/${userConfig.userName}/Applications/Home Manager Apps/Zen Browser (Beta).app";}
+        {app = "/Applications/Docker.app";}
+        {app = "/Applications/Alacritty.app";}
+        {app = "/Applications/WezTerm.app";}
+        {app = "/Applications/LM Studio.app";}
+      ];
     };
     finder.AppleShowAllExtensions = true;
     finder.FXPreferredViewStyle = "clmv";
@@ -193,21 +130,16 @@ with lib; {
     screencapture.location = "~/Desktop/Screenshots";
     screensaver.askForPasswordDelay = 10;
   };
-  system.primaryUser = "yoda";
+
+  system.primaryUser = userConfig.userName;
   system.stateVersion = 4;
 
-  users.knownUsers = ["yoda"];
+  users.knownUsers = [userConfig.userName];
   users.users = {
-    yoda = {
-      home = "/Users/yoda";
+    ${userConfig.userName} = {
+      home = "/Users/${userConfig.userName}";
       shell = pkgs.fish;
-
-      # dscl . list /groups
-      # dscl . list /users
-      # dscl
-      # dscl . -read /Users/yoda UserShell
-      # dscl . -read /Users/yoda UniqueID
-      uid = 501; # 502 if secondary account on OS, 503 for tertiary and so forth... Mostly it's going to be 501 for a new device
+      uid = 501;
     };
   };
 }

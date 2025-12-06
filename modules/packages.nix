@@ -8,12 +8,6 @@
     # pkgs.age
     # pkgs.direnv
     # pkgs.glow
-    # rectangle # Tiling Manager
-    # vlc # Video Player
-    # zed-editor
-    # ollama
-    # fish
-    # awscli2
     bandwhich # Terminal bandwidth utilization tool
     bun
     catppuccin-catwalk
@@ -24,15 +18,11 @@
     direnv
     dua # Tool to conveniently learn about the disk usage of directories
     dust # du + rust = dust. Like du but more intuitive
-    # exifcleaner
     self.packages.${pkgs.stdenv.hostPlatform.system}.exifcleaner
     mkcert
     eza
     fd # Simple, fast and user-friendly alternative to find
     ffmpeg
-    # firefox-devedition
-    # fnm
-    # rbenv
     go
     hoppscotch # Open source API development ecosystem
     hyperfine # Command-line benchmarking tool
@@ -45,6 +35,7 @@
     mise # mise is a tool that manages installations of programming language runtimes and other tools for local development. For example, it can be used to manage multiple versions of Node.js, Python, Ruby, Go, etc. on the same machine.
     neovim
     nodePackages.typescript-language-server
+    nushell
     osv-scanner
     pastel # Command-line tool to generate, analyze, convert and manipulate colors
     pdftk
@@ -54,7 +45,7 @@
     tailscale # Node agent for Tailscale, a mesh VPN built on WireGuard
     vivid # Color genratero for `ls` like commands
     # yaak # Desktop API client for organizing and executing REST, GraphQL, and gRPC requests
-    # inputs.zen-browser
+    inputs.zen-browser
     # Android
     # androidSdkPackages.cmdline-tools-latest # Provides adb, avdmanager, sdkmanager, etc.
     # androidSdkPackages.emulator           # Provides the Android emulator

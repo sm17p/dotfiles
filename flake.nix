@@ -68,6 +68,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nix4vscode = {
+      url = "github:nix-community/nix4vscode";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # rust-overlay = {
     #   url = "github:oxalica/rust-overlay";
     #   inputs.nixpkgs.follows = "nixpkgs";
@@ -85,105 +90,101 @@
     homebrew-bundle,
     homebrew-core,
     homebrew-cask,
+    nix4vscode,
     ...
   } @ inputs: let
     inherit (self) outputs;
 
-    # Define user configurations
-    # https://github.com/AlexNabokikh/nix-config/blob/master/flake.nix
     users = {
       sakatagintoki = {
-        # avatar = ./files/avatar/face;
         email = "smitp.contact@gmail.com";
         fullName = "Smit P";
         hostPlatform = "aarch64-darwin";
         hostName = "sakatagintoki";
-        # gitKey = "C5810093";
         userName = "yoda";
       };
       hijikatatoshiro = {
-        # avatar = ./files/avatar/face;
         email = "smitp.contact@gmail.com";
         fullName = "Smit P";
         hostPlatform = "aarch64-darwin";
         hostName = "hijikatatoshiro";
-        # gitKey = "C5810093";
         userName = "yoda";
       };
     };
 
-    mkNixosConfiguration = system: hostName: userName:
+    hosts = {
+      sakatagintoki = {
+        type = "darwin";
+        system = users.sakatagintoki.hostPlatform;
+        user = users.sakatagintoki;
+        modulesPath = ./hosts/darwin/sakatagintoki;
+        profiles = ["common" "darwin-common" "workstation"];
+      };
+      hijikatatoshiro = {
+        type = "darwin";
+        system = users.hijikatatoshiro.hostPlatform;
+        user = users.hijikatatoshiro;
+        modulesPath = ./hosts/darwin/hijikatatoshiro;
+        profiles = ["common" "darwin-common" "workstation"];
+      };
+    };
+
+    darwinHosts = nixpkgs.lib.filterAttrs (_: h: h.type == "darwin") hosts;
+    nixosHosts = nixpkgs.lib.filterAttrs (_: h: h.type == "nixos") hosts;
+
+    mkNixosConfiguration = hostName: host:
       nixpkgs.lib.nixosSystem {
         specialArgs = {
           inherit inputs outputs hostName;
-          userConfig = users.${userName};
+          userConfig = host.user;
           nixosModules = "${self}/modules/nixos";
         };
-        modules = [./hosts/${hostName}];
+        modules = [
+          ./modules/shared
+          ./modules/nixos
+          host.modulesPath
+        ];
       };
 
-    # Function for nix-darwin system configuration
-    mkDarwinConfiguration = user:
+    mkDarwinConfiguration = hostName: host:
       nix-darwin.lib.darwinSystem {
-        system = user.hostPlatform;
+        system = host.system;
         specialArgs = {
-          inherit self inputs;
-          userConfig = user;
+          inherit self inputs hostName;
+          userConfig = host.user;
         };
         modules = [
+          ./modules/shared
           ./modules/darwin
-          # ./hosts/${hostName}
+          host.modulesPath
           home-manager.darwinModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.${user.userName}.imports = [
-              # TEMP android-nixpkgs.hmModule
+            home-manager.users.${host.user.userName}.imports = [
               ./home-manager
-            ];
-            # networking.hostName = hostName;
+            ] ++ (map (profile: ./home-manager/profiles/${profile}.nix) host.profiles);
             home-manager.extraSpecialArgs = {
               inherit self inputs;
-              userConfig = user;
+              userConfig = host.user;
+              hostName = hostName;
+              hostProfiles = host.profiles;
             };
           }
           nix-homebrew.darwinModules.nix-homebrew
           {
             nix-homebrew = {
-              # Install Homebrew under the default prefix
               enable = true;
-
-              # Apple Silicon Only: Also install Homebrew under the default Intel prefix for Rosetta 2
               enableRosetta = true;
-
-              # User owning the Homebrew prefix
-              user = user.userName;
-
-              # Optional: Declarative tap management
+              user = host.user.userName;
               taps = {
                 "homebrew/homebrew-bundle" = homebrew-bundle;
                 "homebrew/homebrew-core" = homebrew-core;
                 "homebrew/homebrew-cask" = homebrew-cask;
               };
-
               mutableTaps = false;
             };
           }
-        ];
-      };
-
-    # Function for Home Manager configuration
-    mkHomeConfiguration = system: userName: hostName:
-      home-manager.lib.homeManagerConfiguration {
-        pkgs = import nixpkgs {inherit system;};
-        extraSpecialArgs = {
-          inherit inputs outputs;
-          userConfig = users.${userName};
-          nhModules = "${self}/modules/home-manager";
-        };
-        modules = [
-          ./home/${userName}/${hostName}
-          catppuccin.homeModules.catppuccin
         ];
       };
 
@@ -208,17 +209,25 @@
     # Your custom packages and modifications, exported as overlays
     overlays = import ./overlays {inherit inputs;};
 
-    nixosConfigurations = {
-      # kotarokatsura = mkNixosConfiguration "aarch64-linux" "kotarokatsura" "yoda";
-    };
+    darwinConfigurations = builtins.mapAttrs mkDarwinConfiguration darwinHosts;
+    nixosConfigurations = builtins.mapAttrs mkNixosConfiguration nixosHosts;
+    # Example: add a darwin host
+    # darwinConfigurations.example-mac = mkDarwinConfiguration "example-mac" {
+    #   type = "darwin";
+    #   system = "aarch64-darwin";
+    #   user = users.sakatagintoki;
+    #   modulesPath = ./hosts/darwin/example-mac;
+    #   profiles = ["common" "workstation"];
+    # };
+    # Example: add a nixos host
+    # nixosConfigurations.kotarokatsura = mkNixosConfiguration "kotarokatsura" {
+    #   type = "nixos";
+    #   system = "aarch64-linux";
+    #   user = users.yoda;
+    #   modulesPath = ./hosts/nixos/kotarokatsura;
+    #   profiles = ["common" "server"];
+    # };
 
-    darwinConfigurations = {
-      "sakatagintoki" = mkDarwinConfiguration users.sakatagintoki;
-      "hijikatatoshiro" = mkDarwinConfiguration users.hijikatatoshiro;
-    };
-
-    homeConfigurations = {
-      # "yoda@sakatagintoki" = mkHomeConfiguration "aarch64-darwin" "nabokikh" "nabokikh-mac";
-    };
+    homeConfigurations = {};
   };
 }
