@@ -25,7 +25,7 @@
     dua # Tool to conveniently learn about the disk usage of directories
     dust # du + rust = dust. Like du but more intuitive
     # exifcleaner
-    self.packages.${pkgs.system}.exifcleaner
+    self.packages.${pkgs.stdenv.hostPlatform.system}.exifcleaner
     mkcert
     eza
     fd # Simple, fast and user-friendly alternative to find
@@ -36,7 +36,7 @@
     go
     hoppscotch # Open source API development ecosystem
     hyperfine # Command-line benchmarking tool
-    inputs.home-manager.packages.${pkgs.system}.home-manager
+    inputs.home-manager.packages.${pkgs.stdenv.hostPlatform.system}.home-manager
     jujutsu # Git-compatible DVCS
     just # Handy way to save and run project-specific commands
     # lapce # Lightning-fast and Powerful Code Editor written in Rust

@@ -80,7 +80,7 @@ with lib; {
       # "handbrake-app"
       # "losslesscut"
       "cursor"
-      "docker"
+      "docker-desktop"
       "marta"
       "signal"
       "brave-browser"
