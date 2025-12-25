@@ -62,9 +62,9 @@ with lib; {
       # "ferdium"
       # "firefox-developer-edition"
       # "gitify" # Git notifications in menu bar
-      # "handbrake-app"
+      "handbrake-app"
       # "logitech-g-hub"
-      # "losslesscut"
+      "losslesscut"
       # "meetingbar" # Show meetings in menu bar
       # "obsidian" # Obsidian packaging on Nix is not available for macOS
       # "visual-studio-code"
