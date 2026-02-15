@@ -25,8 +25,8 @@
         "fill-labs.dependi"
         "firsttris.vscode-jest-runner"
         "fwcd.kotlin"
-        "github.copilot"
-        "github.copilot-chat"
+        # "github.copilot"
+        # "github.copilot-chat"
         "github.vscode-github-actions"
         "hverlin.mise-vscode"
         "inlang.vs-code-extension"
@@ -113,7 +113,7 @@
         "kilo-code.deniedCommands" = [];
         "kotlin.debugAdapter.enabled" = false;
         "kotlin.languageServer.enabled" = false;
-        "mise.binPath" = "/run/current-system/sw/bin/mise";
+        "mise.binPath" = "/opt/homebrew/bin/mise";
         "nix.enableLanguageServer" = true;
         "nix.formatterPath" = "alejandra";
         "nix.serverPath" = "nil";

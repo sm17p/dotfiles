@@ -20,9 +20,6 @@ fish_add_path -P "$PNPM_HOME"
 # set NDK (ls -1 $ANDROID_HOME/ndk | head -n 1)
 # set -gx NDK_HOME "$ANDROID_HOME/ndk/$NDK"
 
-# rustup
-fish_add_path -Pm "$HOME/.rustup/toolchains/stable-aarch64-apple-darwin/bin"
-
 function expose_app_to_path
     set -f app $argv[1]
 

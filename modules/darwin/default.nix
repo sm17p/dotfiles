@@ -29,7 +29,8 @@ with lib; {
       "trash" # Delete files and folders to trash instead of rm
       "git-lfs" # Git LFS for large files
       "nss"
-      "rustup"
+      "mise"
+      "opencode"
       "postgresql"
       # GRD
       "mysql@8.0"

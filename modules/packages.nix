@@ -33,7 +33,6 @@
     # lapce # Lightning-fast and Powerful Code Editor written in Rust
     lefthook # Fast and powerful Git hooks manager for any type of projects
     moon # Task runner and repo management tool for the web ecosystem, written in Rust
-    mise # mise is a tool that manages installations of programming language runtimes and other tools for local development. For example, it can be used to manage multiple versions of Node.js, Python, Ruby, Go, etc. on the same machine.
     neovim
     nodePackages.typescript-language-server
     nushell
