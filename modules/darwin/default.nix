@@ -40,9 +40,11 @@ with lib; {
       "libsodium"
     ];
     casks = [
+      "android-studio"
       "alacritty"
       "brave-browser"
       "cursor"
+      "cursor-cli"
       "discord"
       "docker-desktop"
       "firefox"
@@ -59,7 +61,6 @@ with lib; {
       "wezterm"
       "zed"
       # "amethyst"
-      # "android-studio"
       # "ferdium"
       # "firefox-developer-edition"
       # "gitify" # Git notifications in menu bar
@@ -90,6 +91,7 @@ with lib; {
       slack = 803453959;
       surfshark = 1437809329;
       telegram = 747648890;
+      whatsapp = 310633997;
     };
 
     taps = builtins.attrNames config.nix-homebrew.taps;

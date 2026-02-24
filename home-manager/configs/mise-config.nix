@@ -7,7 +7,9 @@
 
   #   [tools]
   #   go = "latest"
+  #   java = "temurin-21"
   #   node = "lts"
   #   ruby = "3.4.3"
+  #   rust = "latest"
   # '';
 }
