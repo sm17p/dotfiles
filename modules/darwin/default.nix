@@ -23,6 +23,7 @@ with lib; {
   homebrew = {
     brews = [
       "awscli"
+      "doggo"
       "exercism"
       "pkgconf"
       "ruby-build"
