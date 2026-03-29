@@ -61,6 +61,11 @@
       flake = false;
     };
 
+    anomalyco-tap = {
+      url = "github:anomalyco/homebrew-tap";
+      flake = false;
+    };
+
     zen-browser = {
       url = "github:0xc000022070/zen-browser-flake";
       # IMPORTANT: we're using "libgbm" and is only available in unstable so ensure
@@ -90,6 +95,7 @@
     homebrew-bundle,
     homebrew-core,
     homebrew-cask,
+    anomalyco-tap,
     nix4vscode,
     ...
   } @ inputs: let
@@ -183,6 +189,7 @@
                 "homebrew/homebrew-bundle" = homebrew-bundle;
                 "homebrew/homebrew-core" = homebrew-core;
                 "homebrew/homebrew-cask" = homebrew-cask;
+                "anomalyco/homebrew-tap" = anomalyco-tap;
               };
               mutableTaps = false;
             };

@@ -34,7 +34,7 @@ with lib; {
       "moon"
       "watchman"
       "jjui"
-      "opencode"
+      "anomalyco/tap/opencode"
       "postgresql"
       # GRD
       "mysql@8.0"
@@ -42,6 +42,10 @@ with lib; {
       "imagemagick"
       "libvips"
       "libsodium"
+      "lnav"
+      "nginx"
+      "protobuf"
+      "redis"
     ];
     casks = [
       "android-studio"

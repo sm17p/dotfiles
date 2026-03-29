@@ -10,11 +10,11 @@
     # pkgs.direnv
     # pkgs.glow
     bandwhich # Terminal bandwidth utilization tool
-    bun
+
     catppuccin-catwalk
     cmake
     curl
-    deno
+
     devenv
     direnv
     dua # Tool to conveniently learn about the disk usage of directories
@@ -33,7 +33,7 @@
     # lapce # Lightning-fast and Powerful Code Editor written in Rust
     lefthook # Fast and powerful Git hooks manager for any type of projects
     neovim
-    nodePackages.typescript-language-server
+    typescript-language-server
     nushell
     osv-scanner
     pastel # Command-line tool to generate, analyze, convert and manipulate colors
