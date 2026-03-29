@@ -34,7 +34,6 @@
         "jjk.jjk"
         "jnoortheen.nix-ide"
         "kamadorueda.alejandra"
-        "kilocode.kilo-code"
         "mathiasfrohlich.kotlin"
         "melishev.feather-vscode"
         "mhutchie.git-graph"
@@ -98,19 +97,6 @@
         "javascript.referencesCodeLens.enabled" = true;
         "javascript.referencesCodeLens.showOnAllFunctions" = true;
         "jjk.jjPath" = "/run/current-system/sw/bin/jj";
-        "kilo-code.allowedCommands" = [
-          "git log"
-          "git diff"
-          "git show"
-          "jj diff"
-          "jj log"
-          "npm run test:e2e"
-          "npm install"
-          "tsc"
-          "npx tsc"
-          "npx eslint --fix --max-warnings 0"
-        ];
-        "kilo-code.deniedCommands" = [];
         "kotlin.debugAdapter.enabled" = false;
         "kotlin.languageServer.enabled" = false;
         "mise.binPath" = "/opt/homebrew/bin/mise";

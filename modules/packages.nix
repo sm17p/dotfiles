@@ -32,7 +32,6 @@
     just # Handy way to save and run project-specific commands
     # lapce # Lightning-fast and Powerful Code Editor written in Rust
     lefthook # Fast and powerful Git hooks manager for any type of projects
-    moon # Task runner and repo management tool for the web ecosystem, written in Rust
     neovim
     nodePackages.typescript-language-server
     nushell
@@ -56,7 +55,6 @@
     # androidSdkPackages.platforms-android-35
     # androidSdkPackages.ndk-26-1-10909125           # Provides the Android emulator
     # androidSdkPackages.tools
-    watchman
     # zulu17
 
     # Nix

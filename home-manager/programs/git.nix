@@ -2,6 +2,7 @@ _: {
   programs.difftastic.git.enable = true;
   programs.git = {
     enable = true;
+    signing.format = "openpgp";
 
     ignores = [
       ".DS_Store"

@@ -30,6 +30,8 @@ with lib; {
       "git-lfs" # Git LFS for large files
       "nss"
       "mise"
+      "moon"
+      "watchman"
       "jjui"
       "opencode"
       "postgresql"
