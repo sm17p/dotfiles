@@ -56,6 +56,7 @@ with lib; {
       "discord"
       "docker-desktop"
       "firefox"
+      "gitbutler"
       "google-chrome"
       "lm-studio"
       "marta"

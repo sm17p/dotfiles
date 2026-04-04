@@ -9,11 +9,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1775162149,
-        "narHash": "sha256-s8A3ugWb2/Onx4ih2IRnULCHzsSKNZUF9kBNgNvkTcw=",
+        "lastModified": 1775248543,
+        "narHash": "sha256-As5DTnsSGBaTOrW3m7cT+2Hd3dQmJLd9bNgtUKnqmsA=",
         "owner": "tadfisher",
         "repo": "android-nixpkgs",
-        "rev": "e81a4866c655c467c1d91e78e3231b38a975457d",
+        "rev": "919c44356348ad5d8f7e6cef36bf98113e1da0e8",
         "type": "github"
       },
       "original": {
@@ -63,11 +63,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1774799062,
-        "narHash": "sha256-U9RGxFsLeKivD1+7sVXj5TltHGfB4m/dkn3dENT2fSM=",
+        "lastModified": 1775213373,
+        "narHash": "sha256-wJHsijC2l/E+ovmlpPGha8pXA6RHSwHWmBV97gvkmyI=",
         "owner": "catppuccin",
         "repo": "nix",
-        "rev": "948a8ee84858d053b83f01c8c168f9f4347937e6",
+        "rev": "ba73719e673e7c2d89ac2f8df0bc0d48983e4907",
         "type": "github"
       },
       "original": {
@@ -143,11 +143,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1775143651,
-        "narHash": "sha256-S0RqAyDPMTcv9vASMaE8eY1QexFysAOdnxUxFHIPOyE=",
+        "lastModified": 1775268934,
+        "narHash": "sha256-Sa5tW5kYPJornQEkFVD43F/0d4/WP+/GLTNktTFe2qU=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "d166a078541982a76f14d3e06e9665fa5c9ed85e",
+        "rev": "9dc93220c1c9a410ef6277d6dc55c571d9e592d0",
         "type": "github"
       },
       "original": {
@@ -196,11 +196,11 @@
     "homebrew-cask": {
       "flake": false,
       "locked": {
-        "lastModified": 1775200745,
-        "narHash": "sha256-tgotBLRe7hlieXD7SO8vTsmO3jjDq6hpyGOnSgMzIXc=",
+        "lastModified": 1775291078,
+        "narHash": "sha256-rTB93DGipeptymBgtVyYzGogYkZYlvpPQYJ8mgHXcnE=",
         "owner": "homebrew",
         "repo": "homebrew-cask",
-        "rev": "64532add89a9d290ee344303acc844faf6eb027e",
+        "rev": "c1da4f12eb40f97f83afcc9d324b4a5b02d462c5",
         "type": "github"
       },
       "original": {
@@ -212,11 +212,11 @@
     "homebrew-core": {
       "flake": false,
       "locked": {
-        "lastModified": 1775202494,
-        "narHash": "sha256-u3B2Az2zkxoJf7GRsppFTv5P4puQ0W8LEvhpoSj+k9M=",
+        "lastModified": 1775292827,
+        "narHash": "sha256-rc9X5ikyVYUJXKjRmOhnHfs4hELAm2IRwynpaP8FELM=",
         "owner": "homebrew",
         "repo": "homebrew-core",
-        "rev": "65a9740b191d2629e384572948e9f77a89975960",
+        "rev": "2683bf062bf8d74cb58a2610bee22f46567ae244",
         "type": "github"
       },
       "original": {
@@ -271,11 +271,11 @@
         "systems": "systems_2"
       },
       "locked": {
-        "lastModified": 1775185160,
-        "narHash": "sha256-9xTE48EZukr7Gj+AD7+al2w9fz6mSi4BlBkIM3tbAZw=",
+        "lastModified": 1775270954,
+        "narHash": "sha256-Y/SdeQGRGW8kqVvllQ1axdMwjQ1cFPYsFRJqre2znew=",
         "owner": "nix-community",
         "repo": "nix4vscode",
-        "rev": "dcbc94c80c78adc4283c27df05b9330ba9f1f9c8",
+        "rev": "2ff6aa339cff736bbe9db5bf02d4625e6316a382",
         "type": "github"
       },
       "original": {
@@ -308,11 +308,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1775201995,
-        "narHash": "sha256-Q0XmY3HF0y3d3ibefoGhPYVshL83BdOFIKHSm/fjhMs=",
+        "lastModified": 1775294813,
+        "narHash": "sha256-MpyE88q1vsitzlCw8AlkR/hu3ArhfzcDA0XO/S5Db1Q=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "6cf643456a3a186edbc16dc43dd4e800f3f0e3a5",
+        "rev": "9b81f7dd222936752f3626ed60722c5f803bc8eb",
         "type": "github"
       },
       "original": {
@@ -377,11 +377,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1775162238,
-        "narHash": "sha256-0qt2cfUqfTbesQlvO3NeJLCqa7NoVxUK9vxs79prNHk=",
+        "lastModified": 1775278263,
+        "narHash": "sha256-BgkUmlOuFaaZQCnlhXkQ3/Fng65aq00tJQkpoeTn7Mw=",
         "owner": "0xc000022070",
         "repo": "zen-browser-flake",
-        "rev": "9bf98d57ca82698483ec2d9211ce01669ba37820",
+        "rev": "bb051d7a0f04356d42528bbb65dc014adf2dab66",
         "type": "github"
       },
       "original": {
