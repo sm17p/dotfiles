@@ -25,6 +25,30 @@ Cross-platform flake with Home Manager profiles, shared modules, and per-host ov
 - `home-manager/profiles`: reusable stacks (`common`, `workstation`, `server`).
 - `home-manager/programs`: HM modules (aliases, fish, firefox, git, tealdeer).
 - `pkgs/`, `overlays/`: custom packages and overlays.
+- `.agents/skills/`: canonical repo-tracked Agent Skills for cross-tool reuse.
+
+## Agent skills
+
+This repo keeps portable Agent Skills in `.agents/skills/`. That directory is
+the source of truth for the skill content, but it is not itself a discovery path
+for every client. Each tool still needs the skills linked or installed into its
+own native location.
+
+Current skills:
+- `jj-commit`: writes a multi-line `jj describe` message for an explicit revset.
+- `jj-push`: creates or moves a bookmark and pushes it to `origin`.
+
+Manual hookup examples:
+- Codex: `ln -s "$PWD/.agents/skills/jj-commit" ~/.codex/skills/jj-commit` and
+  `ln -s "$PWD/.agents/skills/jj-push" ~/.codex/skills/jj-push`
+- Claude Code: `ln -s "$PWD/.agents/skills/jj-commit" ~/.claude/skills/jj-commit`
+  and `ln -s "$PWD/.agents/skills/jj-push" ~/.claude/skills/jj-push`
+- Gemini CLI: `gemini skills link "$PWD/.agents/skills/jj-commit"` and
+  `gemini skills link "$PWD/.agents/skills/jj-push"`
+
+Gemini also supports installing or linking skills through its native skills
+commands. Codex and Claude pick them up from their own skill directories after
+the link or copy is in place.
 
 ## Adding a host
 1) Add host metadata in `flake.nix` under `hosts` with `type` (`darwin`/`nixos`), `system`, `user`, `modulesPath`, and `profiles`.

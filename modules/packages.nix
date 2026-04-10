@@ -34,7 +34,6 @@
     lefthook # Fast and powerful Git hooks manager for any type of projects
     neovim
     typescript-language-server
-    nushell
     osv-scanner
     pastel # Command-line tool to generate, analyze, convert and manipulate colors
     pdftk

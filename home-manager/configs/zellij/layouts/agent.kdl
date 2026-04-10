@@ -4,7 +4,7 @@ layout {
         pane name="shell" size="40%" focus=true
         pane split_direction="horizontal" size="60%" {
             pane name="opencode" command="opencode"
-            pane name="cursor-agent" command="cursor-agent"
+            pane name="codex" command="codex"
         }
     }
 }

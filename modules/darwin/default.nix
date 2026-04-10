@@ -53,6 +53,7 @@ with lib; {
       "brave-browser"
       "cursor"
       "cursor-cli"
+      "codex"
       "discord"
       "docker-desktop"
       "firefox"
