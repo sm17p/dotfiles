@@ -5,7 +5,7 @@ HOME_TARGET ?= $(FLAKE)
 EXPERIMENTAL ?= --extra-experimental-features "nix-command flakes"
 
 .PHONY: help install-nix install-nix-darwin darwin-rebuild nixos-rebuild \
-	home-manager-switch nix-gc flake-update flake-check bootstrap-mac
+	home-manager-switch nix-gc flake-update flake-update-homebrew flake-check bootstrap-mac
 
 help:
 	@echo "Available targets:"
@@ -16,6 +16,7 @@ help:
 	@echo "  home-manager-switch  - Switch the Home Manager configuration using flake $(HOME_TARGET)"
 	@echo "  nix-gc               - Run Nix garbage collection"
 	@echo "  flake-update         - Update flake inputs"
+	@echo "  flake-update-homebrew - Update brew and Homebrew taps together"
 	@echo "  flake-check          - Check the flake for issues"
 	@echo "  bootstrap-mac        - Install Nix and nix-darwin sequentially"
 
@@ -54,6 +55,16 @@ flake-update:
 	@echo "Updating flake inputs..."
 	@nix flake update
 	@echo "Flake update complete."
+
+flake-update-homebrew:
+	@echo "Updating Homebrew inputs in lockstep..."
+	@nix flake lock \
+		--update-input brew-src \
+		--update-input nix-homebrew \
+		--update-input homebrew-bundle \
+		--update-input homebrew-core \
+		--update-input homebrew-cask
+	@echo "Homebrew flake inputs updated together."
 
 flake-check:
 	@echo "Checking flake..."

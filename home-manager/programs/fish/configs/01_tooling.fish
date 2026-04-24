@@ -40,7 +40,6 @@ set -gx NDK_HOME $ANDROID_NDK_ROOT/29.0.14206865
 set fish_greeting
 
 starship init fish | source
-direnv hook fish | source
 atuin init fish | source
 
 if status is-interactive

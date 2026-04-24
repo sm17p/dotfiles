@@ -12,7 +12,7 @@ Cross-platform flake with Home Manager profiles, shared modules, and per-host ov
 - `make bootstrap-mac` — installs Nix, then nix-darwin using `FLAKE` (defaults to `.#$(hostname)`).
 - `make darwin-rebuild` — rebuilds nix-darwin with the current `FLAKE`.
 - Override host: `make darwin-rebuild FLAKE=.#sakatagintoki`.
-- Other helpers: `make flake-update`, `make flake-check`, `make nix-gc`, `make home-manager-switch`.
+- Other helpers: `make flake-update`, `make flake-update-homebrew`, `make flake-check`, `make nix-gc`, `make home-manager-switch`.
 
 ## Layout
 - `flake.nix`: inputs, hosts map, mkHost dispatcher.
@@ -64,8 +64,10 @@ the link or copy is in place.
 - Rebuild macOS: `darwin-rebuild switch --flake .#<host>`.
 - Rebuild NixOS: `sudo nixos-rebuild switch --flake .#<host>`.
 - Update inputs: `nix flake update`.
+- Update Homebrew safely: `make flake-update-homebrew`.
 
 ## Troubleshooting
 - Attribute renames: if `pkgs.system` warnings appear, use `pkgs.stdenv.hostPlatform.system`.
 - Package renames: on macOS use `docker-desktop` instead of `docker`.
 - If a profile change doesn’t load, ensure the host’s `profiles` list in `flake.nix` includes it.
+- If `darwin-rebuild` fails during `brew bundle` with unreadable cask or DSL/arity errors, refresh `brew-src`, `nix-homebrew`, `homebrew-bundle`, `homebrew-core`, and `homebrew-cask` together instead of editing individual casks.

@@ -7,7 +7,6 @@
 }: {
   environment.systemPackages = with pkgs; [
     # pkgs.age
-    # pkgs.direnv
     # pkgs.glow
     bandwhich # Terminal bandwidth utilization tool
 
@@ -16,7 +15,6 @@
     curl
 
     devenv
-    direnv
     dua # Tool to conveniently learn about the disk usage of directories
     dust # du + rust = dust. Like du but more intuitive
     self.packages.${pkgs.stdenv.hostPlatform.system}.exifcleaner

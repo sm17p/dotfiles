@@ -38,7 +38,6 @@
         "melishev.feather-vscode"
         "mhutchie.git-graph"
         "million.million-lint"
-        "mkhl.direnv"
         "moonrepo.moon-console"
         "ms-azuretools.vscode-containers"
         "ms-playwright.playwright"

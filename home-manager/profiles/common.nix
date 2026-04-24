@@ -1,5 +1,6 @@
 {
   inputs,
+  pkgs,
   userConfig,
   ...
 }: {
@@ -11,7 +12,7 @@
     ../programs/firefox.nix
     ../programs/git.nix
     ../programs/tealdeer.nix
-    # ../configs/mise-config.nix
+    ../configs/mise-config.nix
   ];
 
   catppuccin = {
@@ -24,6 +25,11 @@
     username = userConfig.userName;
     homeDirectory = "/Users/${userConfig.userName}";
     stateVersion = "24.05";
+    packages = [
+      (pkgs.writeShellScriptBin "agent" ''
+        exec /opt/homebrew/bin/cursor-agent "$@"
+      '')
+    ];
 
     shellAliases = {
       "l" = "eza -l -g --icons --git -a";

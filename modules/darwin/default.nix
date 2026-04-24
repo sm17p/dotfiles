@@ -21,10 +21,15 @@ with lib; {
 
   # Homebrew needs to be installed on its own!
   homebrew = {
+    caskArgs = {
+      no_quarantine = true;
+    };
     brews = [
       "awscli"
       "doggo"
       "exercism"
+      "gemini-cli"
+      "pi-coding-agent"
       "pkgconf"
       "ruby-build"
       "trash" # Delete files and folders to trash instead of rm
@@ -50,10 +55,12 @@ with lib; {
     casks = [
       "android-studio"
       "alacritty"
+      "antigravity"
       "brave-browser"
       "cursor"
       "cursor-cli"
       "codex"
+      "codex-app"
       "discord"
       "docker-desktop"
       "firefox"
@@ -62,6 +69,7 @@ with lib; {
       "lm-studio"
       "marta"
       "microsoft-edge"
+      "opencode-desktop"
       "raycast"
       "rectangle"
       "signal"

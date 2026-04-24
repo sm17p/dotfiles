@@ -38,7 +38,13 @@
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
+    brew-src = {
+      url = "github:Homebrew/brew";
+      flake = false;
+    };
+
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
+    nix-homebrew.inputs.brew-src.follows = "brew-src";
 
     nur = {
       url = "github:nix-community/NUR";
