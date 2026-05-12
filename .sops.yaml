@@ -1,0 +1,30 @@
+keys:
+  # User recovery/admin key.
+  - &yoda age19el649czv2v6hk0es48xqahx0sxapyjmyw2hje7hlc3sc95uj9rq2jrq4n
+
+  # Host key for hijikatatoshiro, derived from /etc/ssh/ssh_host_ed25519_key.pub.
+  - &hijikatatoshiro age1shu02ued7yk9hxf77czqn9zzxgxu7qk06aer0wv4q7rzf0r0mfrse9r4kl
+
+creation_rules:
+  - path_regex: secrets/common\.yaml$
+    age: *yoda
+
+  - path_regex: secrets/hijikatatoshiro\.yaml$
+    age: >-
+      age19el649czv2v6hk0es48xqahx0sxapyjmyw2hje7hlc3sc95uj9rq2jrq4n,
+      age1shu02ued7yk9hxf77czqn9zzxgxu7qk06aer0wv4q7rzf0r0mfrse9r4kl
+
+  - path_regex: secrets/hijikatatoshiro/.*\.yaml$
+    age: >-
+      age19el649czv2v6hk0es48xqahx0sxapyjmyw2hje7hlc3sc95uj9rq2jrq4n,
+      age1shu02ued7yk9hxf77czqn9zzxgxu7qk06aer0wv4q7rzf0r0mfrse9r4kl
+
+  # Add sakatagintoki's /etc/ssh/ssh_host_ed25519_key.pub recipient here when available.
+  - path_regex: secrets/sakatagintoki\.yaml$
+    age: *yoda
+
+  - path_regex: secrets/sakatagintoki/.*\.yaml$
+    age: *yoda
+
+  - path_regex: secrets/.*\.yaml$
+    age: *yoda

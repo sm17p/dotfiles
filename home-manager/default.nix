@@ -1,14 +1,42 @@
-# This is your home-manager configuration file
-# Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
+# Base Home Manager configuration shared by every host/profile.
 {
   inputs,
-  outputs,
   lib,
-  config,
   pkgs,
-  system,
   userConfig,
+  hostName,
   ...
-}: {
-  imports = [];
+}: let
+  homeDirectory =
+    if pkgs.stdenv.isDarwin
+    then "/Users/${userConfig.userName}"
+    else "/home/${userConfig.userName}";
+
+  homeSecretsFile = ../secrets + "/${hostName}/${userConfig.userName}.yaml";
+in {
+  imports = [
+    inputs.sops-nix.homeManagerModules.sops
+  ];
+
+  home = {
+    username = userConfig.userName;
+    inherit homeDirectory;
+    stateVersion = "24.05";
+
+    packages = with pkgs; [
+      age
+      sops
+      ssh-to-age
+    ];
+  };
+
+  programs.home-manager.enable = true;
+
+  sops = lib.mkIf (builtins.pathExists homeSecretsFile) {
+    defaultSopsFile = homeSecretsFile;
+    age.sshKeyPaths = [
+      "${homeDirectory}/.ssh/sops.id_ed25519"
+      "${homeDirectory}/.ssh/id_ed25519"
+    ];
+  };
 }

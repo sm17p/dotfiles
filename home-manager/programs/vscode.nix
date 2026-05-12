@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   inputs,
   ...
@@ -79,7 +80,7 @@
         "catppuccin.syncWithIconPack" = false;
         "cSpell.language" = "en-GB";
         "debug.javascript.defaultRuntimeExecutable" = {
-          "pwa-node" = "/Users/yoda/.local/share/mise/shims/node";
+          "pwa-node" = "${config.home.homeDirectory}/.local/share/mise/shims/node";
         };
         "diffEditor.ignoreTrimWhitespace" = false;
         "dprint.experimentalLsp" = false;
@@ -120,7 +121,7 @@
           inlayHint = false;
         };
         "rubyLsp.formatter" = "auto";
-        "rubyLsp.rubyExecutablePath" = "/Users/yoda/.local/share/mise/installs/ruby/3.4.3/bin/ruby";
+        "rubyLsp.rubyExecutablePath" = "${config.home.homeDirectory}/.local/share/mise/installs/ruby/3.4.3/bin/ruby";
         "rubyLsp.rubyVersionManager" = {
           identifier = "mise";
         };
@@ -155,7 +156,7 @@
           };
         };
         "terminal.integrated.shellIntegration.enabled" = true;
-        "typeChallenges.workspaceFolder" = "/Users/yoda/.typeChallenges";
+        "typeChallenges.workspaceFolder" = "${config.home.homeDirectory}/.typeChallenges";
         "typescript.experimental.useTsgo" = false;
         "typescript.inlayHints.variableTypes.enabled" = true;
         "typescript.referencesCodeLens.enabled" = true;

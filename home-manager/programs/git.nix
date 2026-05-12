@@ -1,4 +1,4 @@
-_: {
+{userConfig, ...}: {
   programs.difftastic.git.enable = true;
   programs.git = {
     enable = true;
@@ -16,8 +16,8 @@ _: {
       log.date = "iso";
       merge.conflictstyle = "zdiff3";
       push.autoSetupRemote = true;
-      user.email = "smitp.contact@gmail.com";
-      user.name = "Smit";
+      user.email = userConfig.email;
+      user.name = userConfig.fullName;
     };
   };
 

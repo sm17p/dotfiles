@@ -1,15 +1,12 @@
 {
   inputs,
+  lib,
   pkgs,
-  userConfig,
   ...
 }: {
   imports = [
     inputs.catppuccin.homeModules.catppuccin
-    inputs.zen-browser.homeModules.default
-    ../programs/vscode.nix
     ../programs/fish.nix
-    ../programs/firefox.nix
     ../programs/git.nix
     ../programs/tealdeer.nix
     ../configs/mise-config.nix
@@ -21,28 +18,14 @@
     zellij.enable = true;
   };
 
-  home = {
-    username = userConfig.userName;
-    homeDirectory = "/Users/${userConfig.userName}";
-    stateVersion = "24.05";
-    packages = [
-      (pkgs.writeShellScriptBin "agent" ''
-        exec /opt/homebrew/bin/cursor-agent "$@"
-      '')
-    ];
-
-    shellAliases = {
-      "l" = "eza -l -g --icons --git -a";
-      "lt" = "eza --tree -g --level=2 --long --icons --git";
-      "nix-rebuild" = "sudo darwin-rebuild switch --flake";
-      "cat" = "bat";
-      "dig" = "doggo";
-      "zja" = "zellij --layout agent";
-    };
+  home.shellAliases = {
+    l = "eza -l -g --icons --git -a";
+    lt = "eza --tree -g --level=2 --long --icons --git";
+    cat = "bat";
+    zja = "zellij --layout agent";
   };
 
   programs = {
-    alacritty.enable = true;
     atuin = {
       enable = true;
       enableBashIntegration = true;
@@ -50,46 +33,18 @@
       enableZshIntegration = true;
     };
     bat.enable = true;
+    bottom.enable = true;
     carapace = {
       enable = true;
       enableBashIntegration = true;
       enableFishIntegration = true;
       enableZshIntegration = true;
     };
-    home-manager.enable = true;
-    bottom.enable = true;
     starship.enable = true;
     zellij = {
       enable = true;
       layouts = {
         agent = ../configs/zellij/layouts/agent.kdl;
-      };
-    };
-    zen-browser = {
-      enable = true;
-      policies = {
-        AutofillAddressEnabled = true;
-        AutofillCreditCardEnabled = false;
-        DisableAppUpdate = true;
-        DisableFeedbackCommands = true;
-        DisableFirefoxStudies = true;
-        DisablePocket = true;
-        DisableTelemetry = true;
-        DontCheckDefaultBrowser = true;
-        NoDefaultBookmarks = true;
-        OfferToSaveLogins = false;
-        EnableTrackingProtection = {
-          Value = true;
-          Locked = true;
-          Cryptomining = true;
-          Fingerprinting = true;
-        };
-        ExtensionSettings = {
-          "amgiflol@sm17p.me" = {
-            install_url = "https://addons.mozilla.org/firefox/downloads/latest/amgiflol/latest.xpi";
-            installation_mode = "force_installed";
-          };
-        };
       };
     };
     zoxide = {
@@ -100,16 +55,5 @@
     };
   };
 
-  systemd.user.startServices = "sd-switch";
-
-  home.file.".wezterm.lua".text = ''
-    return {
-      color_scheme = "Catppuccin Mocha",
-    }
-  '';
-
-  targets.darwin.linkApps = {
-    enable = true;
-    directory = "Applications/Home Manager Apps";
-  };
+  systemd.user.startServices = lib.mkIf pkgs.stdenv.isLinux "sd-switch";
 }

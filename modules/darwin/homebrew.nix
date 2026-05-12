@@ -1,0 +1,97 @@
+{config, ...}: {
+  # Homebrew needs to be installed on its own. nix-homebrew keeps taps declarative.
+  homebrew = {
+    enable = true;
+
+    brews = [
+      "awscli"
+      "doggo"
+      "exercism"
+      "gemini-cli"
+      "pi-coding-agent"
+      "pkgconf"
+      "ruby-build"
+      "trash" # Delete files and folders to trash instead of rm
+      "git-lfs" # Git LFS for large files
+      "nss"
+      "mise"
+      "moon"
+      "watchman"
+      "jjui"
+      "anomalyco/tap/opencode"
+      "postgresql"
+      # GRD
+      "mysql@8.0"
+      "percona-toolkit"
+      "imagemagick"
+      "libvips"
+      "libsodium"
+      "lnav"
+      "nginx"
+      "protobuf"
+      "redis"
+    ];
+
+    casks = [
+      "android-studio"
+      "alacritty"
+      "antigravity"
+      "brave-browser"
+      "cursor"
+      "cursor-cli"
+      "codex"
+      "codex-app"
+      "discord"
+      "docker-desktop"
+      "firefox"
+      "gitbutler"
+      "google-chrome"
+      "helium-browser"
+      "lm-studio"
+      "marta"
+      "microsoft-edge"
+      "opencode-desktop"
+      "raycast"
+      "rectangle"
+      "signal"
+      "spotify"
+      "steam"
+      "vlc"
+      "wezterm"
+      "zed"
+      # "amethyst"
+      # "ferdium"
+      # "firefox-developer-edition"
+      # "gitify" # Git notifications in menu bar
+      "handbrake-app"
+      # "logitech-g-hub"
+      "losslesscut"
+      # "meetingbar" # Show meetings in menu bar
+      # "obsidian" # Obsidian packaging on Nix is not available for macOS
+      # "visual-studio-code"
+      # SketchyBar status bar https://github.com/slano-ls/SketchyBar
+      # TODO:
+    ];
+
+    onActivation = {
+      autoUpdate = false; # Don't update during rebuild
+      cleanup = "uninstall"; # Uninstall all programs not declared
+      upgrade = true;
+    };
+
+    # These app IDs are from using the mas CLI app
+    # mas = mac app store
+    # https://github.com/mas-cli/mas
+    #
+    # $ nix shell nixpkgs#mas
+    # $ mas search <app name>
+    masApps = {
+      slack = 803453959;
+      surfshark = 1437809329;
+      telegram = 747648890;
+      whatsapp = 310633997;
+    };
+
+    taps = builtins.attrNames config.nix-homebrew.taps;
+  };
+}

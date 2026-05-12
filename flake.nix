@@ -38,6 +38,18 @@
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
+    # SOPS + age secret management for NixOS, nix-darwin, and Home Manager.
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # Linux-only Helium Browser flake. macOS uses Homebrew's helium-browser cask.
+    helium-browser = {
+      url = "github:oxcl/nix-flake-helium-browser";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     brew-src = {
       url = "github:Homebrew/brew";
       flake = false;
@@ -77,6 +89,7 @@
       # IMPORTANT: we're using "libgbm" and is only available in unstable so ensure
       # to have it up-to-date or simply don't specify the nixpkgs input
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
     };
 
     nix4vscode = {
@@ -106,6 +119,8 @@
     ...
   } @ inputs: let
     inherit (self) outputs;
+
+    overlays = import ./overlays {inherit inputs;};
 
     users = {
       sakatagintoki = {
@@ -144,17 +159,69 @@
     darwinHosts = nixpkgs.lib.filterAttrs (_: h: h.type == "darwin") hosts;
     nixosHosts = nixpkgs.lib.filterAttrs (_: h: h.type == "nixos") hosts;
 
+    mkPkgs = system:
+      import nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+        overlays = [
+          inputs.nur.overlays.default
+          inputs.nix4vscode.overlays.default
+          overlays.additions
+          overlays.modifications
+        ];
+      };
+
+    mkHomeImports = host:
+      [
+        ./home-manager
+      ]
+      ++ (map (profile: ./home-manager/profiles/${profile}.nix) host.profiles);
+
+    mkHomeSpecialArgs = hostName: host: {
+      inherit self inputs outputs hostName;
+      userConfig = host.user;
+      hostProfiles = host.profiles;
+    };
+
+    mkHomeManagerModule = hostName: host: {
+      home-manager.useGlobalPkgs = true;
+      home-manager.useUserPackages = true;
+      home-manager.users.${host.user.userName}.imports = mkHomeImports host;
+      home-manager.extraSpecialArgs = mkHomeSpecialArgs hostName host;
+    };
+
+    mkHomeConfiguration = hostName: host:
+      home-manager.lib.homeManagerConfiguration {
+        pkgs = mkPkgs host.system;
+        modules = mkHomeImports host;
+        extraSpecialArgs = mkHomeSpecialArgs hostName host;
+      };
+
+    mkHomeConfigurations = hosts:
+      builtins.listToAttrs (map (hostName: let
+          host = hosts.${hostName};
+        in {
+          name = "${host.user.userName}@${hostName}";
+          value = mkHomeConfiguration hostName host;
+        })
+        (builtins.attrNames hosts));
+
     mkNixosConfiguration = hostName: host:
       nixpkgs.lib.nixosSystem {
+        system = host.system;
         specialArgs = {
-          inherit inputs outputs hostName;
+          inherit self inputs outputs hostName;
           userConfig = host.user;
           nixosModules = "${self}/modules/nixos";
         };
         modules = [
+          inputs.sops-nix.nixosModules.sops
+          inputs.helium-browser.nixosModules.default
           ./modules/shared
           ./modules/nixos
           host.modulesPath
+          home-manager.nixosModules.home-manager
+          (mkHomeManagerModule hostName host)
         ];
       };
 
@@ -162,29 +229,16 @@
       nix-darwin.lib.darwinSystem {
         system = host.system;
         specialArgs = {
-          inherit self inputs hostName;
+          inherit self inputs outputs hostName;
           userConfig = host.user;
         };
         modules = [
+          inputs.sops-nix.darwinModules.sops
           ./modules/shared
           ./modules/darwin
           host.modulesPath
           home-manager.darwinModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.${host.user.userName}.imports =
-              [
-                ./home-manager
-              ]
-              ++ (map (profile: ./home-manager/profiles/${profile}.nix) host.profiles);
-            home-manager.extraSpecialArgs = {
-              inherit self inputs;
-              userConfig = host.user;
-              hostName = hostName;
-              hostProfiles = host.profiles;
-            };
-          }
+          (mkHomeManagerModule hostName host)
           nix-homebrew.darwinModules.nix-homebrew
           {
             nix-homebrew = {
@@ -220,9 +274,22 @@
     packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
     # Formatter for your nix files, available through 'nix fmt'
     # Other options beside 'alejandra' include 'nixfmt'
-    formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
+    formatter = forAllSystems (system: let
+      pkgs = nixpkgs.legacyPackages.${system};
+    in
+      pkgs.writeShellApplication {
+        name = "format-nix";
+        runtimeInputs = [pkgs.alejandra];
+        text = ''
+          if [ "$#" -eq 0 ]; then
+            exec alejandra .
+          fi
+
+          exec alejandra "$@"
+        '';
+      });
     # Your custom packages and modifications, exported as overlays
-    overlays = import ./overlays {inherit inputs;};
+    inherit overlays;
 
     darwinConfigurations = builtins.mapAttrs mkDarwinConfiguration darwinHosts;
     nixosConfigurations = builtins.mapAttrs mkNixosConfiguration nixosHosts;
@@ -243,6 +310,6 @@
     #   profiles = ["common" "server"];
     # };
 
-    homeConfigurations = {};
+    homeConfigurations = mkHomeConfigurations hosts;
   };
 }

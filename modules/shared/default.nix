@@ -9,6 +9,7 @@
 with lib; {
   imports = [
     ../packages.nix
+    ../secrets.nix
   ];
 
   environment.etc."fish/config.fish".text = mkBefore ''
@@ -46,7 +47,7 @@ with lib; {
       "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
     ];
     allowed-users = [
-      "yoda"
+      userConfig.userName
       "root"
     ];
     warn-dirty = false;
@@ -57,7 +58,6 @@ with lib; {
   nixpkgs = {
     hostPlatform = userConfig.hostPlatform;
     config = {
-      allowBroken = true;
       allowUnfree = true;
     };
     overlays = [

@@ -1,0 +1,9 @@
+# Local editor/cache files
+.DS_Store
+
+# Decrypted SOPS scratch files
+*.decrypted
+*.dec
+*.plain
+secrets/**/*.tmp
+secrets/**/*.local.*
