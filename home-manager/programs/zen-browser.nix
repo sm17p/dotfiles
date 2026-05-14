@@ -43,24 +43,46 @@ in {
     };
   };
 
-  # Zen, like Firefox, keeps install-specific default profiles in installs.ini.
-  # Point all known Zen app install hashes at the declarative profile so startup
-  # does not fall back to old generated profiles.
-  home.file."Library/Application Support/Zen/installs.ini".text = ''
-    [A63691297E687233]
-    Default=Profiles/default
-    Locked=1
+  # Zen hashes the Nix store app path for dedicated profiles. That path changes
+  # after rebuilds, and Home Manager's declarative profiles.ini is read-only,
+  # which can make Zen try to create a new inaccessible profile. Use the normal
+  # profiles.ini default instead.
+  home.sessionVariables = lib.mkIf pkgs.stdenv.isDarwin {
+    MOZ_LEGACY_PROFILES = "1";
+  };
 
-    [C6181402110E1D04]
-    Default=Profiles/default
-    Locked=1
+  launchd.agents.moz-legacy-profiles = lib.mkIf pkgs.stdenv.isDarwin {
+    enable = true;
+    config = {
+      ProgramArguments = ["/bin/launchctl" "setenv" "MOZ_LEGACY_PROFILES" "1"];
+      RunAtLoad = true;
+    };
+  };
 
-    [92D6F075B049FE64]
-    Default=Profiles/default
-    Locked=1
+  # Keep macOS Zen's install-specific profile lock in sync with the declarative
+  # Home Manager profile as a fallback for launches that do not inherit the
+  # launchd environment above.
+  home.file."Library/Application Support/Zen/installs.ini" = lib.mkIf pkgs.stdenv.isDarwin {
+    text = ''
+      [A63691297E687233]
+      Default=Profiles/default
+      Locked=1
 
-    [9FE932608B093EF5]
-    Default=Profiles/default
-    Locked=1
-  '';
+      [C6181402110E1D04]
+      Default=Profiles/default
+      Locked=1
+
+      [92D6F075B049FE64]
+      Default=Profiles/default
+      Locked=1
+
+      [9FE932608B093EF5]
+      Default=Profiles/default
+      Locked=1
+
+      [80B1E8CB709C1CDE]
+      Default=Profiles/default
+      Locked=1
+    '';
+  };
 }
