@@ -8,6 +8,7 @@
       "doggo"
       "exercism"
       "gemini-cli"
+      "hermes-agent"
       "pi-coding-agent"
       "pkgconf"
       "ruby-build"
