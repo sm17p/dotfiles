@@ -1,0 +1,288 @@
+#:schema https://jj-vcs.github.io/jj/latest/config-schema.json
+
+[aliases]
+
+info = ["log", "--no-graph"]
+
+tug = ["bookmark", "move", "--from", "closest_bookmark(@-)", "--to", "current"]
+
+book = ["bookmark"]
+
+drop = ["abandon"]
+
+"show-" = ["show", "-r", "@-"]
+
+"desc-" = ["describe", "-r", "@-"]
+
+# jj rebase -s <mergerev> -d all:<mergerev>- -d <newparent>
+addparent = ["util", "exec", "--", "bash", "-c", '''
+    jj rebase -s $1 -d "all:$1-" -d $2
+''', "jj-addparent"]
+
+# jj rebase -s <mergerev> -d "all:<mergerev>- ~ <oldparent>"
+rmparent = ["util", "exec", "--", "bash", "-c", '''
+    jj rebase -s $1 -d "all:$1- ~ $2"
+''', "jj-rmparent"]
+
+#bookmark.shove = ["bookmark", "move", "--allow-backwards"]
+
+#shove = ["b", "--ignore-immutable", "shove", "--hard"]
+
+export = ["util", "exec", "--", "python", "-c", '''
+if "indentation makes this more readable":
+    import argparse
+    import os
+    import sys
+    from subprocess import check_output, run, Popen, PIPE
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("first", help="First patch to export. Should not be a merge.")
+    parser.add_argument("last", nargs="?", help="Last patch to export.")
+    parser.add_argument("--output", "-o", metavar="FILENAME", help="write the output to this file, not valid with --import")
+    parser.add_argument("--bookmark", "-b", help="bookmark to create in destination, only valid with --import")
+    parser.add_argument("--stack", action='store_true', help="import immutable stack that includes `first`")
+    parser.add_argument("--import", dest="destdir", nargs="?", const=os.path.expanduser("~/src/mozilla-ff/"), help="import patch(es) into repo at this path.")
+    parser.add_argument("--dry-run", action='store_true', help="only display command to execute")
+    args = parser.parse_args()
+    want_export_only = any(bool(opt) for opt in (args.output,))
+    want_import = any(bool(opt) for opt in (args.destdir, args.bookmark))
+    if want_import and want_export_only:
+        print("both export-only and export-import options given", file=sys.stderr)
+        sys.exit(1)
+    def commit(rev):
+        if args.dry_run:
+            print(f"resolving {rev} ->", end=" ", flush=True)
+            run(["jj", "--color=never", "--no-pager", "log", "--no-graph", "-r", rev, "-Tchange_id.short() ++ '\n'"], text=True)
+        return check_output(["jj", "log", "--no-graph", "-r", rev, "-Tcommit_id.short(16)"], text=True)
+
+    last = None
+    if args.stack:
+        first = commit(f"roots(::{args.first} & mutable())")
+        last = commit(f"latest(heads({args.first}:: & mutable()))")
+    elif args.last:
+        first = commit(args.first)
+        last = commit(args.last)
+    else:
+        first = commit(args.first)
+        last = first
+    if not args.last and not args.bookmark:
+        args.bookmark = args.first
+    cmd = ["git", "format-patch", "--notes", f"{first}^..{last}"]
+    if args.output:
+        cmd.append(f"--output={args.output}")
+    else:
+        cmd.append("--stdout")
+    if args.dry_run:
+        import shlex
+        print(f"Command:\n  {shlex.join(cmd)}")
+        sys.exit(0)
+    if not args.destdir:
+        os.execvp(cmd[0], cmd)
+    process = Popen(cmd, stdout=PIPE, text=True)
+    process = run(["git", "am"], stdin=process.stdout, cwd=args.destdir)
+    if process.returncode != 0:
+        print(f"Export to {args.destdir} failed! Aborting import (running `git am --abort`).")
+        check_output(["git", "am", "--abort"], cwd=args.destdir)
+    else:
+        check_output(["jj", "git", "import"], cwd=args.destdir)
+        check_output(["jj", "book", "create", "-r@-", args.bookmark], cwd=args.destdir)
+''']
+
+_export = ["util", "exec", "--", "bash", "-e", "-c", """
+    TO_FF=0
+    if [[ $1 = --ff ]]; then
+      TO_FF=1
+      shift
+    elif [[ $1 = -o ]] || [[ $1 = --output ]]; then
+      OUTPUT="--output=$2"
+      shift
+      shift
+    else
+      OUTPUT="--stdout"
+    fi
+    REV="${1:-@}"
+    GITBASE=$(jj log --no-graph -r "roots(::$REV & mutable())" -T "commit_id")
+    GITHEAD=$(jj log --no-graph -r "latest(($REV | $REV-) ~ empty())" -T "commit_id")
+    if [[ $TO_FF = 0 ]]; then
+      exec git format-patch $OUTPUT --notes "$GITBASE"^.."$GITHEAD"
+    else
+      git format-patch --stdout --notes "$GITBASE"^.."$GITHEAD" | ( cd $HOME/src/mozilla-ff; git am || git am --abort )
+      echo "Tacked onto previous @"
+    fi
+""", "jj-export"]
+
+phab = ["util", "exec", "--", "bash", "-c", """
+    REV="${1:-@}"
+    URL=$(jj log -r"$REV" -T "description" | perl -lne 'print $1 if /Differential Revision: (https.+)/')
+    if [[ -n "$URL" ]]; then
+        echo "Opening $URL"
+        code --openExternal "$URL"
+    else
+        echo "Unable to find phabricator revision URL for $REV" >&2
+    fi
+""", "jj-phab"]
+
+# "Back" button for the working directory: go back to the last change that @ was
+# editing.
+back = ["util", "exec", "--", "bash", "-c", """
+    resolve () { jj log --no-graph -r@ -T'change_id.short() ++ "\\n"' "$@"; }
+    current=$(resolve)
+    jj op log --no-graph -T 'id.short() ++ "\\n"' | while read op; do
+        old=$(resolve --at-op $op)
+        if [[ $old != $current ]]; then
+            if ! jj edit $old 2>/dev/null; then
+                old_commit=$(jj evolog -r $old --at-op $op --no-graph -T 'commit_id.short()')
+                jj edit $old_commit
+            fi
+            exit 0
+        fi
+    done
+""", "jj-back"]
+
+# Massively overcomplicated? Does moz-phab already do all this?
+#
+# https://github.com/erichdongubler-mozilla/review/pull/1
+#
+# moz-phab will request confirmation before doing anything, so
+# there is no need for a --dry-run flag.
+#
+# Use `jj yeet --debug` to see the input lines being processed.
+#
+# Extra command line options get passed to moz-phab. This only looks
+# at a linear stack of patches ending in @-
+#
+yeet = ["util", "exec", "--", "python", "-c", '''
+if "indentation makes this more readable":
+    import re
+    import shlex
+    import sys
+    from subprocess import run, Popen, PIPE
+
+    # Skip -c and empty string, which probably should not be there.
+    args = sys.argv[1:]
+    debug = "--debug" in args
+    args = [a for a in args if a != "--debug"]
+
+    # Here is where it gets weird. If the first option does not start with a
+    # dash, interpret it to mean that we want to yeet the stack ending at the
+    # given change/commit. But note that all remaining args are still sent to
+    # moz-phab.
+    target = "latest((@ | @-) ~ empty())"
+    if args and not args[0].startswith("-"):
+        target = args.pop(0)
+
+    #run(["jj", "bookmark", "move", "-B", "moz-phab", "--to", target], check=True)
+
+    bug = False
+    upstream = None
+    cmd = ["jj", "log", "-r", f"::({target}) ~ immutable()", "-T", "commit_id.short()++' '++change_id.shortest()++' '++description.first_line()++'\n'", "--no-graph"]
+    process = Popen(cmd, stdout=PIPE, text=True)
+    keep = []
+    earliest = None
+    latest = None  # aka @-
+    for line in process.stdout:
+        line = line.rstrip("\r\n")
+        if debug:
+            print(f"line is <<{line}>>")
+        rev, change, desc = line.split(' ', 2)
+        latest = latest or change
+        upstream = rev
+        rev_bug = None
+        if m := re.match(r'[bB]ug (\d+)', desc):
+            rev_bug = m.group(1)
+
+        # If not grabbing the first rev, and either the bug number changed or
+        # we went from None (no bug) -> None, done.
+        if bug is not False and ((bug != rev_bug) or (rev_bug is None)):
+            break
+        bug = rev_bug
+        keep.append(line)
+        earliest = change
+
+    if bug is None:
+        print(f"submitting rev with no bug number with upstream {upstream}")
+    else:
+        print(f"submitting revs for bug {bug} with upstream {upstream}")
+    for line in keep:
+        print(f"  {line}")
+
+    cmd = ["moz-phab", "submit", "--upstream", upstream, earliest, latest] + args
+    print(shlex.join(["Running:"] + cmd))
+    run(cmd)
+''']
+
+
+[revsets]
+# log = 'reachable(@, mutable())'
+
+
+[revset-aliases]
+current = 'latest((@ | @-) & ~empty())'
+'closest_bookmark(x)' = 'heads(::x & bookmarks())'
+
+junk = '(mutable() & empty()) ~ working_copies() ~ parents(..) ~ bookmarks()'
+
+branchroots = 'trunk()+ & trunk()::bookmarks(glob:"T.*")'
+'branchroot(x)' = 'trunk()+ & trunk()::bookmarks(x)'
+
+# non-trunk ancestors of T.foo
+'topic(x)' = 'trunk()+::x'
+
+'mut(s)' = 'mutable() & description(s)'
+
+# does not work! T.a ... T.b ... T.c ... trunk. xtopic(T.b) needs to exclude T.b+::T.a without excluding T.c::T.b.
+'other_topics(x)' = 'bookmarks(glob:"T.*") ~ x'
+'exclusive_topic(x)' = 'topic(x) ~ trunk()::other_topics(x)'
+'xtopic(x)' = 'exclusive_topic(x)'
+
+# These are not quite the same.
+'why_immutable(r)' = '(r & immutable()) | roots(r:: & immutable_heads())'
+'why_in(r, domain)' = '(r & domain) | roots(r:: & heads(domain))'
+
+
+[git]
+change_id = true
+
+
+[fsmonitor]
+backend = "watchman"
+
+[fsmonitor.watchman]
+register-snapshot-trigger = true
+
+
+[snapshot]
+auto-track = 'all() ~ glob:"**/*.sf.txt"'
+
+
+'hyperlink(url, text)' = '''
+    concat(
+      raw_escape_sequence("\e]8;;" ++ url ++ "\e\\"),
+      text,
+      raw_escape_sequence("\e]8;;\e\\"),
+    )
+'''
+
+
+[user]
+name = "Smit"
+email = "smitp.contact@gmail.com"
+
+
+[ui]
+editor = "nvim"
+default-command = "log"
+format = "git"
+diff-editor = "diffedit3"
+
+# [merge-tools.diffedit3]
+# program="diffedit3"
+# # 17376 is a verified random number, as in https://xkcd.com/221/ :). I am trying
+# # to avoid 8000 or 8080 in case those, more commonly used, port numbers are used
+# # for something else.
+# #
+# # We use a random port as a fallback if all 5 of the preferred port numbers are
+# # busy.
+# edit-args = ["$left", "$right", "$output", "--port", "17376-17380", "--port", "0"]
+# # Not the best diff viewer, but functional. It's possible to hide the 3rd pane in the UI.
+# diff-args = ["$left", "$right", "--port", "17376-17380", "--port", "0"]

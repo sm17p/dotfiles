@@ -9,6 +9,7 @@
     ../programs/fish.nix
     ../programs/git.nix
     ../programs/tealdeer.nix
+    ../configs/writable-config-files.nix
     ../configs/mise-config.nix
   ];
 
