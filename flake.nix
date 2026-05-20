@@ -84,6 +84,16 @@
       flake = false;
     };
 
+    modemdev-tap = {
+      url = "github:modem-dev/homebrew-tap";
+      flake = false;
+    };
+
+    jnsahaj-lumen-tap = {
+      url = "github:jnsahaj/homebrew-lumen";
+      flake = false;
+    };
+
     zen-browser = {
       url = "github:0xc000022070/zen-browser-flake";
       # IMPORTANT: we're using "libgbm" and is only available in unstable so ensure
@@ -115,6 +125,8 @@
     homebrew-core,
     homebrew-cask,
     anomalyco-tap,
+    modemdev-tap,
+    jnsahaj-lumen-tap,
     nix4vscode,
     ...
   } @ inputs: let
@@ -250,6 +262,8 @@
                 "homebrew/homebrew-core" = homebrew-core;
                 "homebrew/homebrew-cask" = homebrew-cask;
                 "anomalyco/homebrew-tap" = anomalyco-tap;
+                "modem-dev/homebrew-tap" = modemdev-tap;
+                "jnsahaj/homebrew-lumen" = jnsahaj-lumen-tap;
               };
               mutableTaps = false;
             };

@@ -20,6 +20,8 @@
       "watchman"
       "jjui"
       "anomalyco/tap/opencode"
+      "modem-dev/tap/hunk"
+      "jnsahaj/lumen/lumen"
       "postgresql"
       # GRD
       "mysql@8.0"

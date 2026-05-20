@@ -64,17 +64,32 @@ nix-gc:
 
 flake-update:
 	@echo "Updating flake inputs..."
-	@nix flake update
+	@token=$$(gh auth token 2>/dev/null || true); \
+		if [ -n "$$token" ]; then \
+			NIX_CONFIG="access-tokens = github.com=$$token" nix flake update; \
+		else \
+			nix flake update; \
+		fi
 	@echo "Flake update complete."
 
 flake-update-homebrew:
 	@echo "Updating Homebrew inputs in lockstep..."
-	@nix flake lock \
-		--update-input brew-src \
-		--update-input nix-homebrew \
-		--update-input homebrew-bundle \
-		--update-input homebrew-core \
-		--update-input homebrew-cask
+	@token=$$(gh auth token 2>/dev/null || true); \
+		if [ -n "$$token" ]; then \
+			NIX_CONFIG="access-tokens = github.com=$$token" nix flake update \
+				brew-src \
+				nix-homebrew \
+				homebrew-bundle \
+				homebrew-core \
+				homebrew-cask; \
+		else \
+			nix flake update \
+				brew-src \
+				nix-homebrew \
+				homebrew-bundle \
+				homebrew-core \
+				homebrew-cask; \
+		fi
 	@echo "Homebrew flake inputs updated together."
 
 flake-check:
