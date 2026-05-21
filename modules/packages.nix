@@ -39,7 +39,6 @@
     silicon # Create beautiful image of your source code
     scc # Very fast accurate code counter with complexity calculations and COCOMO estimates written in pure Go
     stripe-cli
-    tailscale # Node agent for Tailscale, a mesh VPN built on WireGuard
     vivid # Color genratero for `ls` like commands
     # yaak # Desktop API client for organizing and executing REST, GraphQL, and gRPC requests
     inputs.zen-browser

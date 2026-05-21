@@ -47,6 +47,7 @@
       "discord"
       "docker-desktop"
       "firefox"
+      "flying-carpet"
       "gitbutler"
       "google-chrome"
       "helium-browser"
@@ -89,8 +90,10 @@
     # $ nix shell nixpkgs#mas
     # $ mas search <app name>
     masApps = {
+      Xcode = 497799835;
       slack = 803453959;
       surfshark = 1437809329;
+      tailscale = 1475387142;
       telegram = 747648890;
       whatsapp = 310633997;
     };
