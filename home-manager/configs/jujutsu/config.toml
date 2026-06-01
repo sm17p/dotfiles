@@ -4,7 +4,9 @@
 
 info = ["log", "--no-graph"]
 
-tug = ["bookmark", "move", "--from", "closest_bookmark(@-)", "--to", "current"]
+tug = ["bookmark", "move", "--from", "closest_bookmark(@-)", "--to", "@"]
+
+tug- = ["bookmark", "move", "--from", "closest_bookmark(@-)", "--to", "@-"]
 
 book = ["bookmark"]
 

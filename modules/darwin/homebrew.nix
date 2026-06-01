@@ -46,6 +46,7 @@
       "codex-app"
       "discord"
       "docker-desktop"
+      "figma"
       "firefox"
       "flying-carpet"
       "gitbutler"
