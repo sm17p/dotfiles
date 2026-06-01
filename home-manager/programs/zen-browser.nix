@@ -21,7 +21,10 @@ in {
       isDefault = true;
       path = "default";
 
-      extensions.packages = extensions.packagesFor "zen";
+      extensions = {
+        force = true;
+        packages = extensions.packagesFor "zen";
+      };
 
       search = {
         force = true;

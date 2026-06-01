@@ -109,3 +109,4 @@ The reliable new-machine model is: encrypted secrets are copied by Git, and only
 - Package renames: on macOS use `docker-desktop` instead of `docker`.
 - If a profile change doesn’t load, ensure the host’s `profiles` list in `flake.nix` includes it.
 - If `darwin-rebuild` fails during `brew bundle` with unreadable cask or DSL/arity errors, refresh `brew-src`, `nix-homebrew`, `homebrew-bundle`, `homebrew-core`, and `homebrew-cask` together instead of editing individual casks.
+- **Temporary:** `nix-homebrew.mutableTaps = true` in `flake.nix` works around Homebrew `brew-src` (≥ `43039a4500e6`) rejecting Nix-store tap symlinks (`formulae to be in a tap` / `/nix/store/.../Formula/...`). **Revert to `mutableTaps = false`** once nix-homebrew or Homebrew/brew handles declarative `Library/Taps` symlinks again; then drop the related `HOMEBREW_INTERNAL_ALLOW_PACKAGES_FROM_PATHS` `extraEnv` entries if rebuild still passes.

@@ -55,6 +55,7 @@
       "marta"
       "microsoft-edge"
       "opencode-desktop"
+      "paper-design"
       "raycast"
       "rectangle"
       "signal"
@@ -78,9 +79,13 @@
     ];
 
     onActivation = {
-      autoUpdate = false; # Don't update during rebuild
-      cleanup = "uninstall"; # Uninstall all programs not declared
+      autoUpdate = false;
+      cleanup = "uninstall";
       upgrade = true;
+      extraEnv = {
+        HOMEBREW_INTERNAL_ALLOW_PACKAGES_FROM_PATHS = "1";
+      };
+      extraFlags = ["--force-cleanup"];
     };
 
     # These app IDs are from using the mas CLI app

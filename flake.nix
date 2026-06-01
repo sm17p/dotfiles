@@ -257,6 +257,9 @@
               enable = true;
               enableRosetta = true;
               user = host.user.userName;
+              extraEnv = {
+                HOMEBREW_INTERNAL_ALLOW_PACKAGES_FROM_PATHS = "1";
+              };
               taps = {
                 "homebrew/homebrew-bundle" = homebrew-bundle;
                 "homebrew/homebrew-core" = homebrew-core;
@@ -265,7 +268,7 @@
                 "modem-dev/homebrew-tap" = modemdev-tap;
                 "jnsahaj/homebrew-lumen" = jnsahaj-lumen-tap;
               };
-              mutableTaps = false;
+              mutableTaps = true;
             };
           }
         ];

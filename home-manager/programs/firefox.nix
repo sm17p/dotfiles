@@ -32,7 +32,10 @@ in {
 
       bookmarks = {};
 
-      extensions.packages = extensions.packagesFor "firefox";
+      extensions = {
+        force = true;
+        packages = extensions.packagesFor "firefox";
+      };
 
       settings =
         privacy.settings

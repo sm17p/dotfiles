@@ -4,6 +4,8 @@
   inputs,
   ...
 }: {
+  catppuccin.vscode.profiles.default.icons.enable = false;
+
   programs.vscode = {
     enable = true;
     package = pkgs.vscode;
@@ -16,7 +18,6 @@
         "biomejs.biome"
         "blazejkustra.react-compiler-marker"
         "bradlc.vscode-tailwindcss"
-        "catppuccin.catppuccin-vsc"
         "chakrounanas.turbo-console-log"
         "davidanson.vscode-markdownlint"
         "dbaeumer.vscode-eslint"
@@ -162,7 +163,6 @@
         "typescript.referencesCodeLens.enabled" = true;
         "typescript.referencesCodeLens.showOnAllFunctions" = true;
         "vitest.cliArguments" = "--browser=chromium";
-        "workbench.colorTheme" = "Catppuccin Mocha";
         "workbench.iconTheme" = "material-icon-theme";
         "workbench.productIconTheme" = "feather-vscode";
         "[css]" = {

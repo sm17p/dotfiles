@@ -14,9 +14,8 @@
   ];
 
   catppuccin = {
-    bat.enable = true;
-    fish.enable = true;
-    zellij.enable = true;
+    enable = true;
+    autoEnable = true;
   };
 
   home.shellAliases = {
