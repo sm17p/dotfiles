@@ -28,7 +28,8 @@ If no revision is provided, stop and ask for the revision to describe.
    - a blank line
    - a body that explains both what changed and why
 4. Apply the description with `jj describe -r <revset> --stdin`.
-5. Report which revision was updated and restate the final title line.
+5. Advance the closest bookmark with `jj tug` (safe no-op if no bookmark exists).
+6. Report which revision was updated and restate the final title line.
 
 ## Inspection commands
 

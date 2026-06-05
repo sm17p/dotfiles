@@ -27,7 +27,7 @@
       "mysql@8.0"
       "percona-toolkit"
       "imagemagick"
-      "libvips"
+      "vips"
       "libsodium"
       "lnav"
       "nginx"

@@ -23,11 +23,13 @@ argument as the target revision. If no revision is supplied, use `@`.
 ## Workflow
 
 1. Resolve the target revision.
-2. Check whether the bookmark already exists.
-3. Create or move the bookmark so it points at the target revision.
-4. Show bookmark state before pushing.
-5. Push the bookmark to `origin`.
-6. Report what was pushed.
+2. Advance the closest bookmark with `jj tug` if the target is `@` (safe no-op otherwise).
+3. Check whether the bookmark already exists and its current location.
+4. If the bookmark already points at the target revision, skip to push.
+5. Otherwise create or move the bookmark so it points at the target revision.
+6. Show bookmark state before pushing.
+7. Push the bookmark to `origin`.
+8. Report what was pushed.
 
 ## Validation
 
@@ -51,7 +53,10 @@ Inspect the output of `jj bookmark list "<bookmark>" --all-remotes` carefully:
 
 - If you see only remote entries such as `<bookmark>@origin`, create the local
   bookmark.
-- If you see a local `<bookmark>` entry, move that local bookmark.
+- If you see a local `<bookmark>` entry, note its current location.
+
+If the bookmark already exists and already points at the target revision
+(possibly set by `jj tug`), skip the create/move step and go to push.
 
 If the bookmark does not exist locally, create it:
 
@@ -59,7 +64,7 @@ If the bookmark does not exist locally, create it:
 jj bookmark create "<bookmark>" -r "<revset>"
 ```
 
-If the bookmark already exists, move it to the requested revision:
+If the bookmark already exists but points elsewhere, move it:
 
 ```bash
 jj bookmark move "<bookmark>" --to "<revset>"
