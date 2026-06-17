@@ -5,6 +5,7 @@
 
     brews = [
       "awscli"
+      "cloudflared"
       "doggo"
       "exercism"
       "gemini-cli"
@@ -22,7 +23,7 @@
       "anomalyco/tap/opencode"
       "modem-dev/tap/hunk"
       "jnsahaj/lumen/lumen"
-      "postgresql"
+      "postgresql@18"
       # GRD
       "mysql@8.0"
       "percona-toolkit"
