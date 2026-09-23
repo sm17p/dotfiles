@@ -23,7 +23,14 @@
   home.shellAliases = {
     l = "eza -l -g --icons --git -a";
     lt = "eza --tree -g --level=2 --long --icons --git";
+    ls = "eza --icons";
     cat = "bat";
+    find = "fd";
+    grep = "rg";
+    du = "dust";
+    diff = "delta";
+    top = "btop";
+    cd = "z";
     zja = "zellij --layout agent";
   };
 

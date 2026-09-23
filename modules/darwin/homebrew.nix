@@ -49,6 +49,7 @@
       # See: https://forum.cursor.com/t/cursor-couldnt-finish-installing/162469/16
       # "cursor"
       # "cursor-cli"
+      "claude-code"
       "codex"
       "codex-app"
       "discord"
